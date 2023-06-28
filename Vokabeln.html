@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vokabeln</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <script src="Woerter/Woeter.js"></script>
+    <!-- 导入 bootstrap 包 -->
+    
+</head>
+<body>
+    <div id="top" class="settings">
+        <form id="choose-book-unite">
+          <div >
+            <label style="position: relative;margin-right: 20px;">
+                <span>Book:</span>
+                <select id="book">
+                    <option value="Buch1">Buch1</option>
+                    <option value="Buch2">Buch2</option>
+                    <option value="Buch3">Buch3</option>
+                </select>
+            </label>
+            <label style="position: relative;margin-left: 20px;">
+              <span>Unit:</span>
+              <select id="unit">
+                  <option value="Einheit1">Einheit1</option>
+                  <option value="Einheit2">Einheit2</option>
+              </select>
+             
+          </label>
+          </div>
+        </form>
+    </div>
+    
+    <div id="down" >
+        <!-- 中文翻译 -->
+        <div style="padding:10px 0">
+            <h2 id="word_chinese" style="display: inline-block;font-size: 30px;;padding: 10px 0;">haode</h2>
+            <div onclick="play()" style="padding: 0px 10px; display: inline-block;top:50%; margin-top: -20px;">
+                <svg width="30" height="30" viewbox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(2, 0)">
+                      <path d="M0 13
+                            l8 0 
+                            l4 -4
+                            l0 24 
+                            l-4 -4
+                            l-8 0 " 
+                            stroke="white"  fill="white"/>
+                
+                      <g transform="translate(17, 5)">
+                        <path d="M0 10 A 7 7 0 0 1 0 20" fill="none" stroke="white" stroke-width="3"/>
+                        <path d="M3 5 A 12 12 0 0 1 3 25" fill="none" stroke="white" stroke-width="3"/>
+                        <path d="M6 0 A 17 17 0 0 1 6 30" fill="none" stroke="white" stroke-width="3"/>
+                      </g>
+                    </g>
+                    
+                </svg>
+            </div>
+            <!-- class="fas fa-volume-up" -->
+        </div>
+        
+        <form >
+            <div style="padding: 10px 0px;">
+                <input type="text" id="answer_word" placeholder="enter the word in German">
+            </div>
+            <div>
+                <input type="text" id="answer_plural" placeholder="enter plural">
+            </div>
+            <div style="margin-top: 30px;">
+                <p id="example" style="padding: 10px 0;color: wheat;font-size: 16px;">
+                    <span>example:</span>
+                    <span id="word_example" style="margin-left: 5px;">there is supposed to be a sentence</span>
+                </p>
+                <textarea name="answer_example" id="answer_example" cols="50"  rows=4"></textarea>
+            </div>
+        </form>
+    </div>
+
+    <div id="check_result" class="check_result">
+        <div class="wrong_or_right">
+
+            <div class="wrong center_100px" id="wrong">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"  version="1.1">
+                    <circle cx="50" cy="50" r="35" fill="yellow"/>
+                    <g >
+                        <circle cx="40" cy="40" r="5" style="fill:red;"/>
+                        <circle cx="60" cy="60" r="5" style="fill:red"/>
+                        <line x1="40" y1="40" x2="60" y2="60" style="stroke-width: 10;stroke:red"/>
+                        
+                        <circle cx="60" cy="40" r="5" style="fill:red;"/>
+                        <circle cx="40" cy="60" r="5" style="fill:red"/>
+                        <line x1="60" y1="40" x2="40" y2="60" style="stroke-width: 10;stroke:red"/>
+                                                    
+                    </g>
+                </svg>
+            </div>
+            <div class="right center_100px" id="right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"  version="1.1">
+                    <circle cx="50" cy="50" r="35" fill="white"/>
+                    <g  >
+                        <circle cx="30" cy="50" r="5" fill="rgb(0,255,0)"/>
+                        <circle cx="70" cy="35" r="5" fill="rgb(0,255,0)"/>    
+                        <polyline points="30 50 45 60 70 35" style="stroke-width:10 ;stroke:rgb(0,255,0);fill:none" />
+                    </g>
+                </svg>
+            </div>
+        </div>
+        <!-- 回答错误时，展示对比，回答正确时，也展示正确的单词写法 -->
+        <div id="compare">
+            this is test
+        </div>
+        <button class="continue" id="continue">continue</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

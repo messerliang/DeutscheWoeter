@@ -1,0 +1,19 @@
+nom; 住宅; das Wohnhaus; die Wohnhäuser; 
+nom; 独宅，单户住宅; das Einfamilienhaus; die Einfamilienhäuser;
+nom; 连排房屋; das Reihenhaus; die Reihenhäuser
+nom; 集合住房，合住套房; die Wohngemeinschaft; die Wohngemeinschaften
+nom; 房间; das Zimmer; die Zimmer; 
+nom; 起居室，客厅; das Wohnzimmer; die Wohnzimmer; 
+nom; 卧室，寝室; das Schlafzimmer; die Schalfzimmer;
+nom; 浴室; das Bad; die Bader; Das Bad ist klein
+nom; 阳台; der Balkon; die Balkons; Der Balkon geht nach Süden
+nom; 走廊，过道; der Flur; die Flure; Die Katze sitzt im Flur
+
+nom; 寻找; die Suche; die Suchen; Die Informatiker sucht eine Wohnung
+nom; 电脑工程师; der Informatiker; die Informatiker; Der Informatiker sucht eine Wohnung
+nom; 公司; die Firma; die Firmen; Ich arbeitet bei Firma Borsch
+präp; 自……以来; seit; Seit Wochen sucht er eine Wohnung
+nom; 广告; die Anzeige; die Anzeigen; Lesen Sie die Anzeigen?
+nom; 出租者; die Vermieter; die Vermieter; Er ist Vermieter
+adj; 迫切的; dringend; Er möchte dringend eine Wohnung mieten
+inf; 租用; mieten; Er möchte eine Wohnung mieten

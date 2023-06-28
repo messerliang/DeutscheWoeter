@@ -1,0 +1,148 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #34495e;
+    /* display: flex;
+    align-items: center; */
+    /* min-height: 100vh;          最小高度，设置为百分百窗口高度 */
+}
+
+/* 头部样式 */
+#top{
+    width: 100%;
+    height: 80px;
+    background: #253443;
+    color:white;
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;        /*配合flex，使元素垂直居中*/
+    justify-content: space-around;    /*配合flex，使元素水平居中*/
+}
+
+select {
+    width: 80px;
+    font-size: 15px;
+    padding: 5px;
+    /* font-weight: bold;          字体加粗 */
+    appearance: none;           /* 取消选项后面的下三角 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    color: white;
+    border-radius: 0;
+    background-color: rgba(0,0,0,0);
+    cursor: pointer;
+    border: none;
+    border-bottom: 1px solid ghostwhite;
+}
+select:focus{
+    outline: 0;
+}
+label span{
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}
+option {
+    /* font-weight: bold; */
+    /* padding: 5px; */
+    color: rgb(26, 56, 83);
+    border-radius: 0;
+    background-color: #cae4fe;
+    height: 60px;
+}
+
+
+#down{
+    width: 100%;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    top: 30px;
+}
+h2{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 10px 0px;
+}
+input{
+    width:300px;
+    outline: none;
+    font-size: 16px;
+    line-height: 30px;
+    padding:0 5px;
+    border: none;
+    border-bottom: 1px solid white;
+    background-color: rgba(0, 0,0, 0);
+    color: white;
+    margin-top: 10px;
+}
+
+#answer_example{
+    border: 1px solid rgb(114, 114, 114);
+    border-radius: 5px;
+    padding: 10px 10px;
+    resize: none;
+    font-size: 16px;
+    outline: none;
+    background-color: #34495e;
+    color: white;
+}
+
+#check_result{
+    width: 100%;
+    height: 160px;
+    position: absolute;
+    bottom: 0px;
+    visibility: hidden;
+    padding: 0 10px;
+    /* background-color: rgba(150, 251, 251, 0.434); */
+    border-top: 2px solid #fff;
+}
+.wrong_or_right{
+    height: 100%;
+    width: 15%;
+    /* min-width: 150px; */
+    max-width: 200px;
+    position: absolute;
+    top: 0%;
+    /* background-color: #253443; */
+    padding: auto;
+}
+.center_100px{
+    width: 100px;
+    height: 100px; 
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    left: 50%;
+    margin-left: -50px;
+}
+
+
+.continue{
+    width: 160px;
+    height: 50px;
+    
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(39, 39, 39);
+    cursor: pointer;
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    margin-top: -25px;
+    
+    font-weight: bold;
+    font-size: 28px;
+    font-family: 'Lato', sans-serif;
+    color: white;
+}
