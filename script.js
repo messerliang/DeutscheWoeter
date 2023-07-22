@@ -43,10 +43,7 @@ Unit = BUCH_EINHEIT[Book].includes(Unit)?Unit:"Einheit1";
 
 let test_words = [];
 let current_word = {};
-
-
-
-
+let current_idx = 0;
 
 
 choose_book.value = Book;
@@ -72,6 +69,7 @@ choose_book.addEventListener('change', e=>{
 choose_unit.addEventListener('change',e=>{
     Unit = e.target.value;
     localStorage.setItem('unit',Unit);
+    console.log(Unit);
     get_test_words();
     set_word();
 });
@@ -203,11 +201,23 @@ function get_test_words(){
 // 随机选取一个单词
 function set_word(){
     let number_of_rest_words = test_words.length;
-    let index = Math.floor(Math.random()*number_of_rest_words);
+    if(0 == number_of_rest_words){
+        
+        userconfirm = confirm(Book + " " + Unit + " is finished, again?")
+        if(userconfirm){
+            get_test_words();
+        }else{
+            clear();
+            return;
+        }
+        
+    }
+    current_idx = Math.floor(Math.random()*number_of_rest_words);
 
     // word的格式 ： {chinese:"富于想象的",type:"adj",word:"phantasievoll",example:"Die Amerikaner sind phantasievoll"},
-    current_word = test_words[index];
-   
+    current_word = test_words[current_idx];
+    console.log(current_word);
+    
     word_chinese.innerText = '[' +TYPE[current_word.type] + '] ' + current_word.chinese;
     word_example.innerText = current_word.example;
     if(TYPE[current_word.type] != '名'){
@@ -267,7 +277,7 @@ function check_word(){
         // }else{// 单词的 test 次数还没有达到要求，还需进行测试，也就是还保留在测试数组中
         //     current_word.test_num--;
         //     test_words[current_word.index] = current_word;
-        // }
+        // }*
 
     }else{
         icon_right.style.visibility="hidden";
@@ -279,12 +289,11 @@ function check_word(){
         // current_word.test_num = current_word.test_num > 3?3:current_word.test_num;
         // test_words[current_word.index] = current_word;
     }
-    test_words[current_word.index] = test_words[test_words.length-1]
+    test_words[current_idx] = test_words[test_words.length-1]
     test_words.pop()
-    
+    // console.log(test_words.length);
+    console.log(test_words);
     setTimeout(btn_continue.focus(),500);
-    
-    
 }
 
 /* 清除之前的回答 */

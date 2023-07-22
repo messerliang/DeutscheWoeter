@@ -134,7 +134,7 @@ const B1E2 = [
 {chinese:"恰好，刚好",type:"adv",word:"gerade",example:"Ich lerne gerade Deutsch"},
 {chinese:"经济学",type:"nom",word:"die Wirtschaftswissenschaft",plural:"die Wirtschaftswissenschaften",example:"Ich studiere Wirtschaftswissenschaft"},
 {chinese:"综合性大学",type:"nom",word:"die Universität",plural:"die Universitäten",example:"Beate studiert an der Warschauer Universität"},
-{chinese:"波兰",type:"nom",word:"Polen",plural:"o:Pl",example:"Sie wohnt in Polen"},
+{chinese:"波兰",type:"nom",word:"Polen",plural:"o.Pl",example:"Sie wohnt in Polen"},
 {chinese:"英文",type:"nom",word:"das Englisch",plural:"o.Pl",example:"Wir sprechen gut Englisch"},
 {chinese:"世界",type:"nom",word:"die Welt",plural:"die Welten",example:"Die Welt ist groß"},
 {chinese:"慕尼黑",type:"nom",word:"München",plural:"o.Pl",example:"Beate und Jutta kommen aus München"},
