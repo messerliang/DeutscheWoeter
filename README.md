@@ -12,8 +12,8 @@
 
 下面是一些输入示例：
 
-- 名词
-  单数：der Name
-  负数：die Namen
-- 可分动词
+- 名词  
+  单数：der Name  
+  负数：die Namen  
+- 可分动词  
   要用 "/" 来将前缀区分，如："vor/haben"
