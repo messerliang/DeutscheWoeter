@@ -39,7 +39,7 @@
         <!-- 中文翻译 -->
         <div style="padding:10px 0">
             <h2 id="word_chinese" style="display: inline-block;font-size: 30px;;padding: 10px 0;">haode</h2>
-            <div onclick="play()" style="padding: 0px 10px; display: inline-block;top:50%; margin-top: -20px;">
+            <div id="horn" onclick="play()" style="padding: 0px 10px; display: inline-block;top:50%; margin-top: -20px;">
                 <svg width="30" height="30" viewbox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
                     <g transform="translate(2, 0)">
                       <path d="M0 13
@@ -70,11 +70,11 @@
                 <input type="text" id="answer_plural" placeholder="enter plural">
             </div>
             <div style="margin-top: 30px;">
-                <p id="example" style="padding: 10px 0;color: wheat;font-size: 16px;">
+                <p id="example" style="padding: 10px 0;color: wheat;font-size: 25px;">
                     <span>example:</span>
-                    <span id="word_example" style="margin-left: 5px;">there is supposed to be a sentence</span>
+                    <span id="word_example" style="margin-left: 5px;"></span>
                 </p>
-                <textarea name="answer_example" id="answer_example" cols="50"  rows=4"></textarea>
+                <!-- <textarea name="answer_example" id="answer_example" cols="50"  rows="4"></textarea> -->
             </div>
         </form>
     </div>
@@ -117,7 +117,7 @@
     </div>
     <script src="script.js"></script>
     <script>
-        console.log(BUCH_EINHEIT );
+        // console.log(BUCH_EINHEIT );
     </script>
 </body>
 </html>

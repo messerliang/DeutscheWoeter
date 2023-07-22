@@ -4,7 +4,7 @@ const word_chinese = document.getElementById("word_chinese");       /* 显示中
 const word_example = document.getElementById("word_example");       /* 显示例句*/    
 const answer_word = document.getElementById("answer_word");         /* 单词回答 */
 const answer_plural = document.getElementById("answer_plural");     /* 复数回答 */
-const answer_example = document.getElementById("answer_example");   /* 例句回答 */
+
 const icon_right = document.getElementById("right");                /* 正确图标 */
 const icon_wrong = document.getElementById("wrong");                 /* 错误图标 */
 const check_result = document.getElementById("check_result");
@@ -284,8 +284,6 @@ function check_word(){
     
     setTimeout(btn_continue.focus(),500);
     
-    console.log(test_words.length);
-    console.log(test_words)
     
 }
 
@@ -293,7 +291,6 @@ function check_word(){
 function clear(){
     answer_word.value = '';
     answer_plural.value = '';
-    answer_example.value = '';
 
     word_chinese.value = "";
     word_example.value = "";
