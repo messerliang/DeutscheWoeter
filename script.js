@@ -39,44 +39,22 @@ let Book = localStorage.getItem('book') !== null
 let Unit = localStorage.getItem('unit') !== null
 ? localStorage.getItem('unit')
 : 'Einheit1';
+Unit = BUCH_EINHEIT[Book].includes(Unit)?Unit:"Einheit1";
 
 let test_words = [];
 let current_word = {};
 
-let book_html = "";
-let unit_html = "";
-for(let b in BUCH_EINHEIT){
-    if(BUCH_EINHEIT[b].length === 0){
-        continue;
-    }else{
-        book_html = book_html +'<option value="'+b + '">'+ b + '</option>';
-    }
-}
-choose_book.innerHTML = book_html;
 
-if(BUCH_EINHEIT[Book].length === 0){
-    for(let b in BUCH_EINHEIT){
-        if(BUCH_EINHEIT[b].length != 0){
-            Book = b;
-            break;
-        }
-    }
-}
 
-for(let e in BUCH_EINHEIT[Book]){
-    let einheit = BUCH_EINHEIT[Book][e];
-    unit_html = unit_html + '<option value="'+ einheit + '">'+ einheit + '</option>\n';
-}
-Unit = BUCH_EINHEIT[Book].indexOf(Unit)
-?Unit
-:BUCH_EINHEIT[Book][0];
-choose_unit.innerHTML = unit_html;
+
+
 
 choose_book.value = Book;
 choose_unit.value = Unit;
 
 // 以上是单元和课本的选择
-
+update_book_html()
+update_unit_html()
 get_test_words();
 set_word();
 
@@ -84,6 +62,8 @@ set_word();
 choose_book.addEventListener('change', e=>{
     Book = e.target.value;
     localStorage.setItem('book', Book);
+    
+    update_unit_html();
     get_test_words();
     set_word();
 });
@@ -95,6 +75,40 @@ choose_unit.addEventListener('change',e=>{
     get_test_words();
     set_word();
 });
+
+// 根据当前所具有的 book，更新 book 选项栏
+function update_book_html(){
+    let book_html = "";
+
+    for(let b in BUCH_EINHEIT){
+        if(BUCH_EINHEIT[b].length === 0){
+            continue;
+        }else{
+            book_html = book_html +'<option value="'+b + '">'+ b + '</option>';
+        }
+    }
+    choose_book.innerHTML = book_html;
+
+    // 如果当前的 Buch 没有包含任何单元，那么从所有的 Buch 中，选择一个包含有单元的 Buch
+    if(BUCH_EINHEIT[Book].length === 0){
+        for(let b in BUCH_EINHEIT){
+            if(BUCH_EINHEIT[b].length != 0){
+                Book = b;
+                break;
+            }
+        }
+    }
+}
+// 更新单元对应的 html
+function update_unit_html(){
+    let unit_html = "";
+    for(let e in BUCH_EINHEIT[Book]){
+        let einheit = BUCH_EINHEIT[Book][e];
+        unit_html = unit_html + '<option value="'+ einheit + '">'+ einheit + '</option>\n';
+    }
+    choose_unit.innerHTML = unit_html;
+    Unit = BUCH_EINHEIT[Book].indexOf(Unit)?Unit:BUCH_EINHEIT[Book][0];// 在更换 Buch 时，有可能另一个 buch 还没有完成那个单元的记录，就更换为一个当前存在的单元进行替换
+}
 
 answer_word.addEventListener("keyup",e=>{
     if(e.code != "Enter" || "" === answer_word.value)return;
@@ -151,30 +165,30 @@ function get_test_words(){
             break;
         case 'Buch2':
             switch(Unit){
-                case 'Einheit1': test_words = [...B2E1];break;
-                case 'Einheit2': test_words = [...B2E2];break;
-                case 'Einheit3': test_words = [...B2E3];break;
-                case 'Einheit4': test_words = [...B2E4];break;
-                case 'Einheit5': test_words = [...B2E5];break;
-                case 'Einheit6': test_words = [...B2E6];break;
-                case 'Einheit7': test_words = [...B2E7];break;
-                case 'Einheit8': test_words = [...B2E8];break;
-                case 'Einheit9': test_words = [...B2E9];break;
-                case 'Einheit10': test_words = [...B2E10];break;
+                case 'Einheit1': test_words = typeof(B1E1)==undefined?[]:[...B2E1];break;
+                case 'Einheit2': test_words = typeof(B1E2)==undefined?[]:[...B2E2];break;
+                case 'Einheit3': test_words = typeof(B1E3)==undefined?[]:[...B2E3];break;
+                case 'Einheit4': test_words = typeof(B1E4)==undefined?[]:[...B2E4];break;
+                case 'Einheit5': test_words = typeof(B1E5)==undefined?[]:[...B2E5];break;
+                case 'Einheit6': test_words = typeof(B1E6)==undefined?[]:[...B2E6];break;
+                case 'Einheit7': test_words = typeof(B1E7)==undefined?[]:[...B2E7];break;
+                case 'Einheit8': test_words = typeof(B1E8)==undefined?[]:[...B2E8];break;
+                case 'Einheit9': test_words = typeof(B1E9)==undefined?[]:[...B2E9];break;
+                case 'Einheit10': test_words = typeof(B1E9)==undefined?[]:[...B2E10];break;
             }
             break;
         case 'Buch3':
             switch(Unit){
-                case 'Einheit1': test_words = [...B3E1];break;
-                case 'Einheit2': test_words = [...B3E2];break;
-                case 'Einheit3': test_words = [...B3E3];break;
-                case 'Einheit4': test_words = [...B3E4];break;
-                case 'Einheit5': test_words = [...B3E5];break;
-                case 'Einheit6': test_words = [...B3E6];break;
-                case 'Einheit7': test_words = [...B3E7];break;
-                case 'Einheit8': test_words = [...B3E8];break;
-                case 'Einheit9': test_words = [...B3E9];break;
-                case 'Einheit10': test_words = [...B3E10];break;
+                case 'Einheit1': test_words = typeof(B1E1)==undefined?[]:[...B3E1];break;
+                case 'Einheit2': test_words = typeof(B1E2)==undefined?[]:[...B3E2];break;
+                case 'Einheit3': test_words = typeof(B1E3)==undefined?[]:[...B3E3];break;
+                case 'Einheit4': test_words = typeof(B1E4)==undefined?[]:[...B3E4];break;
+                case 'Einheit5': test_words = typeof(B1E5)==undefined?[]:[...B3E5];break;
+                case 'Einheit6': test_words = typeof(B1E6)==undefined?[]:[...B3E6];break;
+                case 'Einheit7': test_words = typeof(B1E7)==undefined?[]:[...B3E7];break;
+                case 'Einheit8': test_words = typeof(B1E8)==undefined?[]:[...B3E8];break;
+                case 'Einheit9': test_words = typeof(B1E9)==undefined?[]:[...B3E9];break;
+                case 'Einheit10': test_words = typeof(B1E9)==undefined?[]:[...B3E10];break;
             }
             break;
     }
@@ -213,7 +227,7 @@ function set_word(){
     play();
 }
 
-// 播放音频
+//  使用系统自带的语音播放音频
 function play(){
     // 下面是阅读单词
     let message = new SpeechSynthesisUtterance();

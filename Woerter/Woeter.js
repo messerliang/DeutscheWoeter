@@ -1,9 +1,8 @@
 const BUCH_EINHEIT = {
-Buch1:["Einheit1","Einheit1","Einheit2","Einheit3","Einheit4","Einheit5","Einheit6","Einheit7","Einheit8","Einheit9","Einheit10",],
-Buch2:["Einheit1","Einheit1","Einheit2","Einheit3","Einheit4","Einheit5","Einheit6","Einheit7","Einheit8","Einheit9","Einheit10",],
+Buch1:["Einheit1","Einheit2","Einheit3","Einheit4","Einheit5","Einheit6","Einheit7","Einheit8","Einheit9","Einheit10",],
+Buch2:["Einheit1","Einheit2","Einheit3","Einheit4","Einheit5","Einheit6","Einheit7","Einheit8","Einheit9","Einheit10",],
 Buch3:["Einheit1","Einheit2","Einheit3","Einheit4","Einheit5",],
 };
-
 const B1E1 = [
 {chinese:"天秤",type:"nom",word:"die Waage",plural:"die Waagen",example:"Das ist eine Waage"},
 {chinese:"书包，纸夹",type:"nom",word:"die Mappe",plural:"die Mappen",example:"Das ist eine Mappe"},
