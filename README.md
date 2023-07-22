@@ -15,5 +15,8 @@
 - 名词  
   单数：der Name  
   负数：die Namen  
+
 - 可分动词  
   要用 "/" 来将前缀区分，如："vor/haben"
+
+- 形容词、副词、介词等则直接输入词就可以，如："nach"，"überigens", "nachdem"
