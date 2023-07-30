@@ -109,6 +109,8 @@ input{
     padding: 0 10px;
     /* background-color: rgba(150, 251, 251, 0.434); */
     border-top: 2px solid #fff;
+    display: flex;
+    justify-content: center;
 }
 .wrong_or_right{
     height: 100%;
@@ -117,7 +119,9 @@ input{
     max-width: 200px;
     position: absolute;
     top: 0%;
+    left: 10px;
     /* background-color: #253443; */
+    /* display: inline-block; */
     padding: auto;
 }
 .center_100px{
@@ -128,6 +132,20 @@ input{
     margin-top: -50px;
     left: 50%;
     margin-left: -50px;
+}
+
+#compare{
+    display: inline-block;
+    height: 100%;
+    align-items: center;
+}
+#compare p{
+    color: white;
+    text-align: left;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    font-size: 20px;
 }
 
 

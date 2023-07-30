@@ -4,6 +4,8 @@ const word_chinese = document.getElementById("word_chinese");       /* 显示中
 const word_example = document.getElementById("word_example");       /* 显示例句*/    
 const answer_word = document.getElementById("answer_word");         /* 单词回答 */
 const answer_plural = document.getElementById("answer_plural");     /* 复数回答 */
+const answer_origin = document.getElementById("origin")            /* 显示参考答案 */
+
 
 const icon_right = document.getElementById("right");                /* 正确图标 */
 const icon_wrong = document.getElementById("wrong");                 /* 错误图标 */
@@ -16,6 +18,8 @@ const audio_finished_path = 'sound/finished.mp3';
 const audio_correct = new Audio(audio_correct_path)
 const audio_wrong = new Audio(audio_wrong_path)
 const audio_finished = new Audio(audio_wrong_path)
+
+
 
 const TYPE = {  nom:"名",
                 inf:'动',
@@ -46,8 +50,7 @@ let current_word = {};
 let current_idx = 0;
 
 
-choose_book.value = Book;
-choose_unit.value = Unit;
+
 
 // 以上是单元和课本的选择
 update_book_html()
@@ -55,12 +58,19 @@ update_unit_html()
 get_test_words();
 set_word();
 
+// 在完成上面的元素布置后，将当前的选择单元切换为之前的记录
+
+choose_book.value = Book;
+choose_unit.value = Unit;
+
+
 // 每次重新选择 book 时，都刷新数据
 choose_book.addEventListener('change', e=>{
     Book = e.target.value;
     localStorage.setItem('book', Book);
     
     update_unit_html();
+    clear();
     get_test_words();
     set_word();
 });
@@ -70,6 +80,7 @@ choose_unit.addEventListener('change',e=>{
     Unit = e.target.value;
     localStorage.setItem('unit',Unit);
     console.log(Unit);
+    clear();
     get_test_words();
     set_word();
 });
@@ -265,6 +276,7 @@ function check_word(){
 
     check_result.style.visibility="visible";
     btn_continue.style.visibility="visible";
+    answer_origin.style.visibility="visible";
 
     if(flag){ // correct
         icon_right.style.visibility="visible";
@@ -291,6 +303,12 @@ function check_word(){
     }
     test_words[current_idx] = test_words[test_words.length-1]
     test_words.pop()
+    let ansstr = current_word.word;
+    if(current_word.type === 'nom'){
+        ansstr = ansstr + "&nbsp;;&nbsp;" + current_word.plural ;
+    }
+    ansstr = ansstr + "<br>" + current_word.chinese;
+    answer_origin.innerHTML = ansstr;
     // console.log(test_words.length);
     console.log(test_words);
     setTimeout(btn_continue.focus(),500);
@@ -303,16 +321,20 @@ function clear(){
 
     word_chinese.value = "";
     word_example.value = "";
+
+    check_result.style.visibility   ="hidden";
+    icon_right.style.visibility     ="hidden";
+    icon_wrong.style.visibility     ="hidden";
+    btn_continue.style.visibility   ="hidden";
+    answer_origin.style.visibility  ="hidden";
     
 }
 /**回车、或者是点击 continue 按钮，开始下一个单词 */
 function start_next_word(){
     
 
-    check_result.style.visibility   ="hidden";
-    icon_right.style.visibility     ="hidden";
-    icon_wrong.style.visibility     ="hidden";
-    btn_continue.style.visibility   ="hidden";
+
+    
 
     clear();
     set_word();

@@ -38,7 +38,9 @@
     <div id="down" >
         <!-- 中文翻译 -->
         <div style="padding:10px 0">
-            <h2 id="word_chinese" style="display: inline-block;font-size: 30px;;padding: 10px 0;">haode</h2>
+            <!-- 这里显示中文信息 -->
+            <h2 id="word_chinese" style="display: inline-block;font-size: 30px;;padding: 10px 0;"></h2>
+            <!-- 下面是那个喇叭 -->
             <div id="horn" onclick="play()" style="padding: 0px 10px; display: inline-block;top:50%; margin-top: -20px;">
                 <svg width="30" height="30" viewbox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
                     <g transform="translate(2, 0)">
@@ -69,19 +71,21 @@
             <div>
                 <input type="text" id="answer_plural" placeholder="enter plural">
             </div>
-            <div style="margin-top: 30px;">
-                <p id="example" style="padding: 10px 0;color: wheat;font-size: 25px;">
-                    <span>example:</span>
-                    <span id="word_example" style="margin-left: 5px;"></span>
-                </p>
-                <!-- <textarea name="answer_example" id="answer_example" cols="50"  rows="4"></textarea> -->
-            </div>
+            
         </form>
+        <!-- 下面这个显示例句 -->
+        <div style="margin-top: 30px;">
+            <p id="example" style="padding: 10px 0;color: wheat;font-size: 25px;">
+                <span>example:</span>
+                <span id="word_example" style="margin-left: 5px;"></span>
+            </p>
+            <!-- <textarea name="answer_example" id="answer_example" cols="50"  rows="4"></textarea> -->
+        </div>
     </div>
 
     <div id="check_result" class="check_result">
         <div class="wrong_or_right">
-
+            <!-- 回答错误，出现 × -->
             <div class="wrong center_100px" id="wrong">
                 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"  version="1.1">
                     <circle cx="50" cy="50" r="35" fill="yellow"/>
@@ -97,6 +101,7 @@
                     </g>
                 </svg>
             </div>
+            <!-- 回答正确，出现 √ -->
             <div class="right center_100px" id="right">
                 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"  version="1.1">
                     <circle cx="50" cy="50" r="35" fill="white"/>
@@ -110,9 +115,11 @@
         </div>
         <!-- 回答错误时，展示对比，回答正确时，也展示正确的单词写法 -->
         <div id="compare">
-            <!-- this is test -->
+            <!-- 展示原来的单词 -->
+            <p id="origin"></p>
         </div>
 
+        <!-- 继续下一个单词的按钮 -->
         <button class="continue" id="continue">continue</button>
     </div>
     <script src="script.js"></script>
