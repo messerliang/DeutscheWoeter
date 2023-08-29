@@ -1,5 +1,7 @@
 # 简单的德语单词在线练习网页
 
+[github静态网页展示](https://messerliang.github.io/DeutscheWoeter/)
+
 用javascript和html写的一个德语背单词网页，单词来源为新编大学德语每个单元的单词（目前为前三册）。
 
 因为单词库基本是手打的，所以可以有错误
