@@ -4,8 +4,8 @@ const word_chinese = document.getElementById("word_chinese");       /* 显示中
 const word_example = document.getElementById("word_example");       /* 显示例句*/    
 const answer_word = document.getElementById("answer_word");         /* 单词回答 */
 const answer_plural = document.getElementById("answer_plural");     /* 复数回答 */
-const answer_origin = document.getElementById("origin")            /* 显示参考答案 */
-
+const answer_origin = document.getElementById("origin")             /* 显示参考答案 */
+const check_button = document.getElementById("check_button")        /* 点击检查输入答案的按钮 */
 
 const icon_right = document.getElementById("right");                /* 正确图标 */
 const icon_wrong = document.getElementById("wrong");                 /* 错误图标 */
@@ -70,6 +70,7 @@ choose_book.addEventListener('change', e=>{
     localStorage.setItem('book', Book);
     
     update_unit_html();
+    choose_unit.value = Unit;
     clear();
     get_test_words();
     set_word();
