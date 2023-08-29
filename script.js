@@ -333,10 +333,6 @@ function clear(){
 /**回车、或者是点击 continue 按钮，开始下一个单词 */
 function start_next_word(){
     
-
-
-    
-
     clear();
     set_word();
     console.log("next word");
