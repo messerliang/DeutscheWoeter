@@ -2,6 +2,9 @@
     --progress-bar-value:0%;
     --progress-color:rgb(88, 242, 2);
     --progress-height:10px;
+    --progress-radius:5px;
+    --progress-shadow-height:4px;
+    --progress-shadow-radius:2px
 }
 
 *{
@@ -96,7 +99,7 @@ h2{
 .progress_bar{
     background-color: var(--progress-color);
     width: var(--progress-bar-value);
-    border-radius: 5px;
+    border-radius: var(--progress-radius);
     height: var(--progress-height);
     transition-duration: .4s;
     transition-property: width;
@@ -106,10 +109,13 @@ h2{
 }
 .progress_bar_shadow{
     width: 100%;
-    height: 35%;
+    height: var(--progress-shadow-height);
+    border-radius: var(--progress-shadow-radius);
     background-color: rgb(121,214,53);
-    margin: 0 5% 5px 5px;
-    /* margin-bottom: 10%; */
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 2px;
+    
 }
 /* 输入框样式 */
 .answer{
