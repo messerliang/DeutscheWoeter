@@ -15,6 +15,10 @@ const div_check_plural = document.getElementById("check_plural_result");        
 
 const check_button = document.getElementById("check_button")                    /* 点击检查输入答案的按钮 */
 
+const div_progress_bar = document.getElementById("div_progress_bar");           // 进度条盒子
+
+const root = document.documentElement;                                          // 根元素
+
 // const icon_right = document.getElementById("right");                            // 正确图标 
 // const icon_wrong = document.getElementById("wrong");                            // 错误图标 
 // const check_result = document.getElementById("check_result");
@@ -59,9 +63,10 @@ let Unit = localStorage.getItem('unit') !== null
 : 'Einheit1';
 Unit = BUCH_EINHEIT[Book].includes(Unit)?Unit:"Einheit1";
 
-let test_words = [];
-let current_word = {};
-let current_idx = 0;
+let test_words = [];    // 当前练习的单词数组
+let current_word = {};  // 从练习的单词数组中选择的单词对象
+let current_idx = 0;    // 选中的第几个单词
+let WORDS_NUM = 1;      // 总共练习的单词的数量
 
 
 
@@ -272,10 +277,13 @@ function get_test_words(){
     }
 
     // 为每个单词添加测试次数
+    WORDS_NUM = test_words.length;
     for(let i=0; i<test_words.length; i++){
         test_words[i].index = i;
         test_words[i].test_num = 1;
     }
+    // 清零进度条
+    root.style.setProperty('--progress-bar-value', "0%");
 }
 
 // 随机选取一个单词
@@ -459,9 +467,11 @@ function check_word(){
 
     }
 
-
-
-    console.log(test_words);
+    let pv = (1.0 - test_words.length / WORDS_NUM)*100;
+    let pv_str = pv.toFixed(2) + "%";
+    root.style.setProperty('--progress-bar-value', pv_str);
+    // console.log(test_words);
+    console.log(test_words.length, WORDS_NUM, pv_str);
     
     // setTimeout(btn_continue.focus(),500);
 }
