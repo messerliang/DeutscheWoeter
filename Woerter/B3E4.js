@@ -5,7 +5,7 @@ const B3E4 = [
 {chinese:"（为了学习在国外）居留",type:"nom",word:"der Studienaufenthalt",plural:"die Studienaufenthalte",example:"Der Studienaufenthalt von Zhang Min an der TU Darmstadt dauert sechs Monante"},
 {chinese:"大学同学",type:"nom",word:"der Kommilitone",plural:"Die Kommilitonen",example:"Studentenn untereinander nennen sich Kommilitonen"},
 {chinese:"现象",type:"nom",word:"die Erscheinung",plural:"die Erscheinungen",example:"Stress is eine typische Erscheinung der modernen Gesellschaft"},
-{chinese:"记者，通讯员",type:"der Repoter",word:"die Repoter",example:"Zhang ist Repoter der Studentenzeitung ,, Zeiger\""},
+{chinese:"记者，通讯员",type:"nom",word:"der Repoter",plural:"die Repoter",example:"Zhang ist Repoter der Studentenzeitung ,, Zeiger\""},
 {chinese:"组织，筹办",type:"inf",word:"organisieren",example:"Nächste Woche organisieren wir ein Klassensportfest"},
 {chinese:"鼓舞，振奋",type:"inf",word:"begeistern",example:"Die Ausstellung hat viele Besucher für die chinesische Kunst begeistert"},
 {chinese:"材料，资料",type:"nom",word:"das Material",plural:"die Materialien",example:"Ich muss fpr meinen Aufsatz genug Material sammeln"},
