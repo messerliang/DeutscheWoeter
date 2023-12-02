@@ -19,6 +19,7 @@ const icon_right = document.getElementById("right");                            
 const icon_wrong = document.getElementById("wrong");                            /* 错误图标 */
 const check_result = document.getElementById("check_result");
 const btn_continue = document.getElementById("continue");
+
 const audio_correct_path = 'sound/correct.mp3';
 const audio_wrong_path = 'sound/wrong.mp3';
 const audio_finished_path = 'sound/finished.mp3';
@@ -144,7 +145,7 @@ input_gender.addEventListener("keydown", function(e){ // 单数词性的跳转
     }
     else if(e.code === "Enter" && "" != input_gender.value.trim()){
         input_answer_word.focus();
-    }else if(3 <= input_gender.value.length){
+    }else if(3 <= input_gender.value.length && e.code != "Backspace"){
         input_answer_word.focus();
     };
 });
@@ -304,7 +305,7 @@ function set_word(){
         div_plural_gender.style.display = "none";
 
         input_answer_plural.disabled = true;
-        input_answer_plural.style.visibility="hidden";
+        input_answer_plural.style.display="none";
         span_hint_singular.style.display = "none";
         span_hint_plural.style.display="none";
         
@@ -361,7 +362,7 @@ function check_word(){
 
     if(current_word.type === 'nom'){
         // && 
-        let ref_plural = "o.pl";
+        let ref_plural = "o.Pl";
         if(current_word.plural === 'o.Pl'){
             ans_p = "o.Pl";
         }else{
@@ -403,6 +404,18 @@ function check_word(){
             div_check_plural.innerHTML = "<p style=\"color:#2bb91b; \"> " + ans_p +" </p>" ;
         }
     }
+    else{ // 非名词的判断，只需要进行单个词的判断即可
+        let ref_word = current_word.word.trim();
+        flag = ans_w === ref_word;
+        input_answer_word.style.display = "none";
+        div_check_answer_word.style.display = "inline-block";
+        if(ans_w != ref_word){
+            div_check_answer_word.innerHTML = "<p style=\"color:#2bb91b; \">" + ref_word +"</p>" +
+            "<p style=\"color:#ff5132;text-decoration: line-through;\"> " + ans_w +" </p>" ;
+        }else{
+            div_check_answer_word.innerHTML = "<p style=\"color:#2bb91b; \"> " + ans_w +" </p>" ;
+        }
+    }
 
     check_result.style.visibility="visible";
     btn_continue.style.visibility="visible";
@@ -412,10 +425,7 @@ function check_word(){
     if(flag){ // correct
         icon_right.style.visibility="visible";
         icon_wrong.style.visibility="hidden";
-        // input_answer_word.style.color = "#2bb91b";
-        // input_answer_word.style.fontWeight="bold";
-        // input_answer_plural.style.color = "#2bb91b";
-        // input_answer_plural.style.fontWeight="bold";
+        
         audio_correct.play();
         
         test_words[current_idx] = test_words[test_words.length-1];
