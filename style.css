@@ -6,6 +6,7 @@
 
 body{
     background-color: #34495e;
+    font-family: Arial, sans-serif;
     /* display: flex;
     align-items: center; */
     /* min-height: 100vh;          最小高度，设置为百分百窗口高度 */
@@ -146,6 +147,13 @@ h2{
 }
 
 /* 例句 */
+#example{
+    font-family: inherit;
+    padding: 5px 5px;
+    color: wheat;
+    font-size: 20px;
+}
+
 #word_example{
     color: rgba(255, 255, 255, 0.1);
 }
