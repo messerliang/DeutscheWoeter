@@ -66,9 +66,11 @@
         <!-- 中文翻译 -->
         <div style="padding:10px 0">
             <!-- 这里显示中文信息 -->
-            <h2 id="word_chinese" style="display: inline-block;font-size: 30px;;padding: 10px 0;"></h2>
+            <h2 id="word_chinese" style="display: inline-block;font-size: 30px;;padding: 10px 0;">
+                
+            </h2>
             <!-- 下面是那个喇叭 -->
-            <div id="horn" onclick="play()" style="padding: 0px 10px; display: inline-block;top:50%; margin-top: -20px;">
+            <div id="horn" onclick="play()" style=" display: inline-block;top:50%; margin-top: -20px;">
                 <svg width="30" height="30" viewbox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
                     <g transform="translate(2, 0)">
                       <path d="M0 13
@@ -90,26 +92,29 @@
             </div>
             <!-- class="fas fa-volume-up" -->
         </div>
-        
-        <form >
-            <div style="padding: 10px 0px;">
-                <span id="hint_sigular" class="hint">单数：</span>
-                <input type="text" class="gender" id="input_gender" placeholder="词性">
-                <div class="gender" id="check_gender_result"></div>
-                <input type="text" class="answer" id="answer_word" placeholder="输入单词">
-                <div class="answer" id="check_answer_result" ></div>
-            </div>
-            <div>
-                <span id="hint_plural" class="hint">复数：</span>
-                <div class="gender" id="plural_gender">die</div>
-                <input type="text" class="answer" id="answer_plural" placeholder="复数">
-                <div class="answer" id="check_plural_result" ></div>
-            </div>
-            
-        </form>
+        <!-- 单词输入区域 -->
+        <div id="input_area">
+            <form >
+                <div style="padding: 10px 0px;">
+                    <span id="hint_sigular" class="hint">单数：</span>
+                    <input type="text" class="gender" id="input_gender" placeholder="词性">
+                    <div class="gender" id="check_gender_result"></div>
+                    <input type="text" class="answer" id="answer_word" placeholder="输入单词">
+                    <div class="answer" id="check_answer_result" ></div>
+                </div>
+                <div>
+                    <span id="hint_plural" class="hint">复数：</span>
+                    <div class="gender" id="plural_gender" style="border: none;">die</div>
+                    <input type="text" class="answer" id="answer_plural" placeholder="复数">
+                    <div class="answer" id="check_plural_result" ></div>
+                </div>
+            </form>
+
+        </div>
+
         <!-- 下面这个显示例句 -->
         <div style="margin-top: 30px;">
-            <p id="example" style="padding: 10px 0;color: wheat;font-size: 25px;">
+            <p id="example" style="padding: 10px 5px;color: wheat;font-size: 25px;">
                 <span>例句:</span>
                 <span id="word_example" style="margin-left: 5px;"></span>
             </p>
@@ -118,13 +123,13 @@
 
         <!-- 下面是点击进行检查的按钮 -->
         <div style="width: 100%; margin-top: 20px; align-items: center; display: flex; flex-direction: column;">
-            <button id="check_button" onclick="check_word()">
+            <button id="check_button" >
                 check
             </button>
         </div>
     </div>
 
-    <div id="check_result" class="check_result">
+    <!-- <div id="check_result" class="check_result">
         <div class="wrong_or_right">
             
             <div class="wrong center_100px" id="wrong">
@@ -156,7 +161,7 @@
         </div>
 
         <button class="continue" id="continue">continue</button>
-    </div>
+    </div> -->
 
     <script src="script.js"></script>
     <script>

@@ -65,7 +65,7 @@ option {
     flex-direction: column;
     align-items: center;
     position: relative;
-    top: 30px;
+    top: 15px;
 }
 h2{
     display: block;
