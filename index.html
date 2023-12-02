@@ -12,6 +12,7 @@
     
 </head>
 <body>
+    <!-- 选择第几本书和第几个单元 -->
     <div id="top" class="settings">
         <form id="choose-book-unite">
           <div >
@@ -66,17 +67,24 @@
         
         <form >
             <div style="padding: 10px 0px;">
-                <input type="text" id="answer_word" placeholder="enter the word in German">
+                <span id="hint_sigular" class="hint">单数：</span>
+                <input type="text" class="gender" id="input_gender" placeholder="词性">
+                <div class="gender" id="check_gender_result"></div>
+                <input type="text" class="answer" id="answer_word" placeholder="输入单词">
+                <div class="answer" id="check_answer_result" ></div>
             </div>
             <div>
-                <input type="text" id="answer_plural" placeholder="enter plural">
+                <span id="hint_plural" class="hint">复数：</span>
+                <div class="gender" id="plural_gender">die</div>
+                <input type="text" class="answer" id="answer_plural" placeholder="复数">
+                <div class="answer" id="check_plural_result" ></div>
             </div>
             
         </form>
         <!-- 下面这个显示例句 -->
         <div style="margin-top: 30px;">
             <p id="example" style="padding: 10px 0;color: wheat;font-size: 25px;">
-                <span>example:</span>
+                <span>例句:</span>
                 <span id="word_example" style="margin-left: 5px;"></span>
             </p>
             <!-- <textarea name="answer_example" id="answer_example" cols="50"  rows="4"></textarea> -->
@@ -120,11 +128,7 @@
                 </svg>
             </div>
         </div>
-        <!-- 回答错误时，展示对比，回答正确时，也展示正确的单词写法 -->
-        <div id="compare">
-            <!-- 展示原来的单词 -->
-            <p id="origin"></p>
-        </div>
+
 
         <!-- 继续下一个单词的按钮 -->
         <button class="continue" id="continue">continue</button>
