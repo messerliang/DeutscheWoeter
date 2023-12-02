@@ -100,26 +100,41 @@
         </div>
         <!-- 单词输入区域 -->
         <div id="input_area">
-            <form >
-                <div style="padding: 10px 0px;">
-                    <span id="hint_sigular" class="hint">单数：</span>
-                    <input type="text" class="gender" id="input_gender" placeholder="词性">
-                    <div class="gender" id="check_gender_result"></div>
-                    <input type="text" class="answer" id="answer_word" placeholder="输入单词">
-                    <div class="answer" id="check_answer_result" ></div>
+            <div style="margin-bottom: 10px;">
+                <form >
+                    <div style="padding: 10px 0px;">
+                        <span id="hint_sigular" class="hint">单数：</span>
+                        <input type="text" class="gender" id="input_gender" placeholder="词性">
+                        <div class="gender" id="check_gender_result"></div>
+                        <input type="text" class="answer" id="answer_word" placeholder="输入单词">
+                        <div class="answer" id="check_answer_result" ></div>
+                    </div>
+                    <div>
+                        <span id="hint_plural" class="hint">复数：</span>
+                        <div class="gender" id="plural_gender" style="border: none;">die</div>
+                        <input type="text" class="answer" id="answer_plural" placeholder="复数">
+                        <div class="answer" id="check_plural_result" ></div>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- 特殊字符输入，如 ä, ö, ü, Ä, Ö, Ü, ß -->
+            <div >
+                <div class="umlauts_container">
+                    <button class="umlauts_button">ä</button>
+                    
+                    <button class="umlauts_button">ö</button>
+                    
+                    <button class="umlauts_button">ü</button>
+                    
+                    <button class="umlauts_button">ß</button>
                 </div>
-                <div>
-                    <span id="hint_plural" class="hint">复数：</span>
-                    <div class="gender" id="plural_gender" style="border: none;">die</div>
-                    <input type="text" class="answer" id="answer_plural" placeholder="复数">
-                    <div class="answer" id="check_plural_result" ></div>
-                </div>
-            </form>
-
+                <div class="umlauts_container"></div>
+            </div>
         </div>
 
         <!-- 下面这个显示例句 -->
-        <div style="margin-top: 30px;">
+        <div style="margin-top: 10px;">
             <p id="example" >
                 <span>例句:</span>
                 <span id="word_example" style="margin-left: 5px;"></span>
