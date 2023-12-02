@@ -15,7 +15,7 @@ const B2E6 = [
 {chinese:"排除在外的",type:"adj",word:"ausgeschlossen",example:"Er ist von dieser Arbeit ganz ausgeschlossen"},
 {chinese:"(电流)打开",type:"trennV",word:"ein/schalten",example:"Er schaltet den Fernseher ein und sieht fern"},
 {chinese:"(电流)关闭",type:"trennV",word:"aus/schalten",example:"Schalten Sie bitte das Licht aus, wenn Sie weggehen"},
-{chinese:"程序，节目，计划",type:"no",word:"das Program",plural:"die Programe",example:"Er hat angefangen, ein neues Programm zu schreiben"},
+{chinese:"程序，节目，计划",type:"nom",word:"das Program",plural:"die Programe",example:"Er hat angefangen, ein neues Programm zu schreiben"},
 {chinese:"安装，装设",type:"inf",word:"installieren",example:"Ich muss ein neues Programm installieren"},
 {chinese:"资料，数据",type:"nom",word:"die Datei",plural:"die Dateien",example:"Mann muss die wichtigen Dateien gut speichern"},
 {chinese:"编辑，处理，加工",type:"inf",word:"bearbeiten",example:"Ich habe den Bericht geschrieben und muss ihn bearbeiten"},
