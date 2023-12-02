@@ -35,7 +35,7 @@ const B1E4 = [
 {chinese:"除此之外，此外",type:"adv",word:"außerdem",example:"Außerdem fährt sie sogar oft Fahrrad"},
 {chinese:"工程师",type:"nom",word:"die Ingenieur",plural:"die Ingenieure",example:"Mein Onkel ist Ingenieur"},
 {chinese:"秘书",type:"nom",word:"der Sekretär",plural:"die Sekretäre",example:"Meine Tante ist Sekretärin"},
-{chinese:"奥地利",type:"nom",word:"das Österreich",example:"Sie beide wohnen in Österreich"},
+{chinese:"奥地利",type:"nom",word:"das Österreich",plural:"o.Pl",example:"Sie beide wohnen in Österreich"},
 {chinese:"同伴，伴侣",type:"nom",word:"der Gefährte",plural:"die Gefährten",example:"Ich bin noch nicht verhairatet, habe aber einen Lebensgefährten"},
 {chinese:"警察",type:"nom",word:"die Polizei",plural:"o.Pl",example:"Die Polizei ist dort"},
 {chinese:"宁愿，更喜欢",type:"adv",word:"lieber",example:"Ich trinke lieber Tee"},
