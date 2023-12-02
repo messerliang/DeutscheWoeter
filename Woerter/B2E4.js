@@ -104,7 +104,7 @@ const B2E4 = [
 {chinese:"变成",type:"inf",word:"verwandeln",example:"Das Dorf hat sich in eine kleine Stadt verwandelt"},
 {chinese:"告别，离别",type:"nom",word:"der Abschied",plural:"die Abschiede",example:"Sie nehmen Abschied von uns"},
 {chinese:"有成就的",type:"adj",word:"erfolgreich",example:"Er hat die Prüfung erfolgreich bestanden"},
-{chinese:"洪水",type:"nom",word:"das Hochwasser",example:"Er herrschte hier Hochwasser"},
+{chinese:"洪水",type:"nom",word:"das Hochwasser",plural:"o.Pl",example:"Er herrschte hier Hochwasser"},
 {chinese:"拯救",type:"inf",word:"retten",example:"Sie hat ihm das Leben gerettet"},
-{chinese:"山巅，山顶",type:"nom",word:"der Berggipfel",example:"Auf diesem Berggipfel gibt es viel Schnee"},
+{chinese:"山巅，山顶",type:"nom",word:"der Berggipfel",plural:"der Berggipfel",example:"Auf diesem Berggipfel gibt es viel Schnee"},
 ];
