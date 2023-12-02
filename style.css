@@ -76,17 +76,62 @@ h2{
 #horn:hover{
     cursor: pointer;
 }
-input{
-    width:300px;
+/* 输入框样式 */
+.answer{
+    width:200px;
     outline: none;
     font-size: 16px;
-    line-height: 30px;
+    line-height: 25px;
     padding:0 5px;
     border: none;
-    border-bottom: 1px solid white;
+    border-bottom: 2px solid white;
     background-color: rgba(0, 0,0, 0);
     color: white;
     margin-top: 10px;
+    margin-left: 5px;
+    display: inline-block;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+
+.answer:focus{
+    box-shadow: 0 0 5px rgba(236, 228, 104, 0.897);
+}
+
+/* 提示词样式 */
+.hint{
+    color: white;
+    font-size: 20px;
+    /* width: 100px; */
+    display: inline-block;
+    /* margin: auto, 5px; */
+}
+
+/* 词性输入 der die das */
+.gender{
+    box-sizing: border-box;
+    outline: none;
+    /* border: 2px solid #ccc; */
+    border: none;
+    border-bottom: 2px solid white;
+    /* padding: 8px; */
+    /* border-radius: 5px; */
+    font-size: 16px;
+    width: 40px;
+    /* height: 30px; */
+    line-height: 25px;
+    text-align: center;
+    margin: 0;
+    color: white;
+    background-color: rgba(0, 0,0, 0);
+    display: inline-block;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+
+.gender:focus{
+    /* border-color: #007bff; */
+    box-shadow: 0 0 5px rgba(236, 228, 104, 0.897);
 }
 
 #answer_example{
@@ -98,6 +143,15 @@ input{
     outline: none;
     background-color: #34495e;
     color: white;
+}
+
+/* 例句 */
+#word_example{
+    color: rgba(255, 255, 255, 0.1);
+}
+
+#word_example:hover{
+    color: wheat;;
 }
 
 #check_button{
@@ -114,6 +168,7 @@ input{
 #check_button:hover{
     cursor: pointer;
 }
+
 
 #check_result{
     width: 100%;
@@ -134,7 +189,7 @@ input{
     max-width: 200px;
     position: absolute;
     top: 0%;
-    left: 10px;
+    left: 5px;
     /* background-color: #253443; */
     /* display: inline-block; */
     padding: auto;
@@ -147,20 +202,6 @@ input{
     margin-top: -50px;
     left: 50%;
     margin-left: -50px;
-}
-
-#compare{
-    display: inline-block;
-    height: 100%;
-    align-items: center;
-}
-#compare p{
-    color: white;
-    text-align: left;
-    height: 100%;
-    align-items: center;
-    display: flex;
-    font-size: 20px;
 }
 
 

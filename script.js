@@ -1,14 +1,22 @@
-const choose_book = document.getElementById('book');                /* 选择课本 */
-const choose_unit = document.getElementById('unit');                /* 选择单元 */
-const word_chinese = document.getElementById("word_chinese");       /* 显示中文翻译 */
-const word_example = document.getElementById("word_example");       /* 显示例句*/    
-const answer_word = document.getElementById("answer_word");         /* 单词回答 */
-const answer_plural = document.getElementById("answer_plural");     /* 复数回答 */
-const answer_origin = document.getElementById("origin")             /* 显示参考答案 */
-const check_button = document.getElementById("check_button")        /* 点击检查输入答案的按钮 */
+const choose_book = document.getElementById('book');                 answer_plural           /* 选择课本 */
+const choose_unit = document.getElementById('unit');                            /* 选择单元 */
+const word_chinese = document.getElementById("word_chinese");                   /* 显示中文翻译 */
+const word_example = document.getElementById("word_example");                   /* 显示例句*/    
 
-const icon_right = document.getElementById("right");                /* 正确图标 */
-const icon_wrong = document.getElementById("wrong");                 /* 错误图标 */
+const span_hint_singular = document.getElementById("hint_sigular")              /* 单数提示词 */
+const input_gender = document.getElementById("input_gender");                   /* 输入的词性 */
+const div_check_gender_result = document.getElementById("check_gender_result")  /* 输入词性的检测结果 */
+const input_answer_word = document.getElementById("answer_word");                     /* 单词回答 */
+const div_check_answer_word = document.getElementById("check_answer_result")    /* 单词的检查结果 */
+const span_hint_plural = document.getElementById("hint_plural")                 /* 复数提示词 */
+const div_plural_gender = document.getElementById("plural_gender");             /* 复数对应的 die */
+const input_answer_plural = document.getElementById("answer_plural");                 /* 复数回答 */
+const div_check_plural = document.getElementById("check_plural_result");        /* 复数回答检查 */
+
+const check_button = document.getElementById("check_button")                    /* 点击检查输入答案的按钮 */
+
+const icon_right = document.getElementById("right");                            /* 正确图标 */
+const icon_wrong = document.getElementById("wrong");                            /* 错误图标 */
 const check_result = document.getElementById("check_result");
 const btn_continue = document.getElementById("continue");
 const audio_correct_path = 'sound/correct.mp3';
@@ -20,6 +28,11 @@ const audio_wrong = new Audio(audio_wrong_path)
 const audio_finished = new Audio(audio_wrong_path)
 
 
+const STATE = {
+    ANSWER: 0,
+    CHECK:1,
+}
+let current_state = STATE.ANSWER; // 当前是在作答阶段还是在检测阶段
 
 const TYPE = {  nom:"名",
                 inf:'动',
@@ -32,7 +45,7 @@ const TYPE = {  nom:"名",
                 präp:'介'
             };
 
-answer_word.focus();
+input_answer_word.focus();
 
 // 读取之前选择的 book
 let Book = localStorage.getItem('book') !== null
@@ -120,41 +133,85 @@ function update_unit_html(){
     Unit = BUCH_EINHEIT[Book].indexOf(Unit)?Unit:BUCH_EINHEIT[Book][0];// 在更换 Buch 时，有可能另一个 buch 还没有完成那个单元的记录，就更换为一个当前存在的单元进行替换
 }
 
-answer_word.addEventListener("keyup",e=>{
-    if(e.code != "Enter" || "" === answer_word.value)return;
-    
-    // 如果是名词，则需要继续输入名词复数
-    if(current_word.type === 'nom' && current_word.plural != 'o.Pl'){
-        answer_plural.focus();
+// 输入框之间的跳转
+input_gender.addEventListener("keydown", function(e){ // 单数词性的跳转
+    if(e.code === "Space" ){ // 空格，跳转到
+        e.preventDefault();
+        input_gender.value = input_gender.value.trim();
+        if("" != input_gender.value)
+            input_answer_word.focus();
         return;
     }
-    // 如果不是名词，就直接去检查单词拼写
-    check_word();
+    else if(e.code === "Enter" && "" != input_gender.value.trim()){
+        input_answer_word.focus();
+    }else if(3 <= input_gender.value.length){
+        input_answer_word.focus();
+    };
 });
 
+input_answer_word.addEventListener("keydown",e=>{
+    if("" === input_answer_word.value.trim()){
+        if(e.code === "Backspace"){
+            input_gender.focus();
+        }
+        return;
+    }
+    else{
+        if(e.code != "Enter" || "" === input_answer_word.value)
+            return;
 
-/* 鼠标移动到相应区域则 focus */
-answer_word.onmouseover = function(event){
-    answer_word.focus();
-}
+        // 如果是名词，则需要继续输入名词复数
+        if(current_word.type === 'nom' && current_word.plural != 'o.Pl'){
+            input_answer_plural.focus();
+            return;
+        }
+        // 如果不是名词，就直接去检查单词拼写
+        if(STATE.ANSWER === current_state)
+            check_word();
+        else{
+            start_next_word();
+        }
+    }
+});
 
 /* 复数回答区域输入回车进行单词检测 */
-answer_plural.addEventListener("keyup",e=>{
-    if(e.code != "Enter")return;
-    check_word();
+input_answer_plural.addEventListener("keydown",e=>{
+    if("" === input_answer_plural.value.trim()){
+        if(e.code === "Backspace")
+            input_answer_word.focus();
+        return;
+    }else{
+        if(e.code != "Enter")return;
+        if( STATE.ANSWER === current_state )
+        {
+            check_word();
+        }else{
+            start_next_word();
+        }
+        console.log(current_state);
+    }
+    
 })
 
 /* 按钮点击，则继续进行 */
 btn_continue.addEventListener("click",e=>{
+    console.log("trigger click");
     start_next_word();
-    answer_word.focus();
+    
 })
 
-btn_continue.addEventListener("keyup",e=>{
-    if(e.code != "Enter")return;
-    start_next_word();
-    answer_word.focus();
-})
+/* 鼠标移动到相应区域则 focus */
+input_gender.onmousemove = function(event){
+    input_gender.focus();
+}
+input_answer_word.onmouseover = function(event){
+    input_answer_word.focus();
+}
+input_answer_plural.onmousemove = function(event){
+    input_answer_plural.focus();
+}
+
+
 
 // 根据选项选择
 function get_test_words(){
@@ -232,17 +289,45 @@ function set_word(){
     
     word_chinese.innerText = '[' +TYPE[current_word.type] + '] ' + current_word.chinese;
     word_example.innerText = current_word.example;
+
+    // 检测结果设为不可见
+    div_check_gender_result.style.display = "none";
+    div_check_answer_word.style.display = "none";
+    div_check_plural.style.display = "none";
+    input_answer_word.style.display = "inline-block";
+
+    // 非名词，只需要回答对应的单词即可
     if(TYPE[current_word.type] != '名'){
-        answer_plural.disabled = true;
-        answer_plural.style.visibility="hidden";
+        input_answer_word.focus();
+
+        input_gender.style.display = "none";
+        div_plural_gender.style.display = "none";
+
+        input_answer_plural.disabled = true;
+        input_answer_plural.style.visibility="hidden";
+        span_hint_singular.style.display = "none";
+        span_hint_plural.style.display="none";
+        
     }
+    // 名词则需要考虑词性、单复数等问题
     else{
-        answer_plural.disabled = false;
-        answer_plural.style.visibility="visible";
+        input_gender.style.display = "inline-block";
+        
+        div_plural_gender.style.display = "inline-block";
+
+        input_answer_plural.disabled = false;
+        input_answer_plural.style.visibility="visible";
+        input_answer_plural.style.display = "inline-block";
+
+        span_hint_singular.style.display = "inline-block";
+        span_hint_plural.style.display="inline-block";
         if(current_word.plural == 'o.Pl'){
-            answer_plural.value = 'o.Pl';
-            answer_plural.disabled = true;
+            input_answer_plural.value = 'o.Pl';
+            input_answer_plural.disabled = true;
+            div_plural_gender.style.visibility = "hidden";
         }
+
+        input_gender.focus();
         
     }
     
@@ -261,64 +346,108 @@ function play(){
     message.text = current_word.word;
     speechSynthesis.speak(message);
     // 阅读例句
-    message.text = current_word.example;
-    speechSynthesis.speak(message);    
+    // message.text = current_word.example;
+    // speechSynthesis.speak(message);    
 }
 
 // 对回答结果进行检测
 function check_word(){
-    let ans_w = answer_word.value;
-    let ans_p = answer_plural.value;
-    let flag = false;
-    flag = (ans_w === current_word.word)
-    if(current_word.type === 'nom' && current_word.plural != 'o.Pl'){
-         flag = flag && (ans_p === current_word.plural);
+    current_state = STATE.CHECK;
+    
+    let ans_gender = input_gender.value     // 输入的词性
+    let ans_w = input_answer_word.value;          // 输入的单词
+    let ans_p = input_answer_plural.value;        // 如果是负数的话，还要输入负数形式
+    let flag = true;
+
+    if(current_word.type === 'nom'){
+        // && 
+        let ref_plural = "o.pl";
+        if(current_word.plural === 'o.Pl'){
+            ans_p = "o.Pl";
+        }else{
+            ref_plural = current_word.plural.split(" ")[1];
+        }
+        let ref_ans = current_word.word.split(" ");
+        let ref_gender = ref_ans[0];
+        let ref_word = ref_ans[1];
+        flag = (ans_gender === ref_gender && ans_w === ref_word && ans_p === ref_plural);
+        // 名词情况下检查词性是否正确
+        input_gender.style.display = "none";
+        div_check_gender_result.style.display = "inline-block";
+        if(ans_gender != ref_gender){
+            
+            div_check_gender_result.innerHTML = 
+            "<p style=\"color:#2bb91b; \">" + ref_gender +"</p>" +
+            "<p style=\"color:#ff5132;text-decoration: line-through;\"> " + ans_gender +" </p>" ;
+        }else{
+            div_check_gender_result.innerHTML = "<p style=\"color:#2bb91b; \"> " + ans_gender +" </p>" ;
+        }
+
+        // 检查名词单数
+        input_answer_word.style.display = "none";
+        div_check_answer_word.style.display = "inline-block";
+        if(ans_w != ref_word){
+            div_check_answer_word.innerHTML = "<p style=\"color:#2bb91b; \">" + ref_word +"</p>" +
+            "<p style=\"color:#ff5132;text-decoration: line-through;\"> " + ans_w +" </p>" ;
+        }else{
+            div_check_answer_word.innerHTML = "<p style=\"color:#2bb91b; \"> " + ans_w +" </p>" ;
+        }
+
+        // 检查名词复数的拼写
+        input_answer_plural.style.display = "none";
+        div_check_plural.style.display = "inline-block";
+        if(ans_p != ref_plural){
+            div_check_plural.innerHTML = "<p style=\"color:#2bb91b; \">" + ref_plural +"</p>" +
+            "<p style=\"color:#ff5132;text-decoration: line-through;\"> " + ans_p +" </p>" ;
+        }else{
+            div_check_plural.innerHTML = "<p style=\"color:#2bb91b; \"> " + ans_p +" </p>" ;
+        }
     }
 
     check_result.style.visibility="visible";
     btn_continue.style.visibility="visible";
-    answer_origin.style.visibility="visible";
 
+
+    // 根据最后的正误结果显示对应的图表以及音效
     if(flag){ // correct
         icon_right.style.visibility="visible";
         icon_wrong.style.visibility="hidden";
+        // input_answer_word.style.color = "#2bb91b";
+        // input_answer_word.style.fontWeight="bold";
+        // input_answer_plural.style.color = "#2bb91b";
+        // input_answer_plural.style.fontWeight="bold";
         audio_correct.play();
         
-        // if(current_word.test_num == 1){// 表示当前单词已经 test 完毕，从数组中移除
-        //     test_words[current_word.index] = test_words[test_words.length - 1];
-        //     test_words.splice(test_words.length-1, 1);
-        // }else{// 单词的 test 次数还没有达到要求，还需进行测试，也就是还保留在测试数组中
-        //     current_word.test_num--;
-        //     test_words[current_word.index] = current_word;
-        // }*
+        test_words[current_idx] = test_words[test_words.length-1];
+        test_words.pop();
 
     }else{
         icon_right.style.visibility="hidden";
         icon_wrong.style.visibility="visible";
         audio_wrong.play();
 
-        // // 回答错误则测试次数加一，最大测试次数是3
-        // current_word.test_num ++;
-        // current_word.test_num = current_word.test_num > 3?3:current_word.test_num;
-        // test_words[current_word.index] = current_word;
     }
-    test_words[current_idx] = test_words[test_words.length-1]
-    test_words.pop()
+
     let ansstr = current_word.word;
     if(current_word.type === 'nom'){
         ansstr = ansstr + "&nbsp;;&nbsp;" + current_word.plural ;
     }
     ansstr = ansstr + "<br>" + current_word.chinese;
-    answer_origin.innerHTML = ansstr;
-    // console.log(test_words.length);
+
     console.log(test_words);
-    setTimeout(btn_continue.focus(),500);
+    word_chinese.focus();
+    // setTimeout(btn_continue.focus(),500);
 }
 
 /* 清除之前的回答 */
 function clear(){
-    answer_word.value = '';
-    answer_plural.value = '';
+    input_answer_word.value = '';
+
+
+    input_answer_plural.value = '';
+    input_answer_plural.style.color = "white";
+
+    input_gender.value = '';
 
     word_chinese.value = "";
     word_example.value = "";
@@ -327,17 +456,11 @@ function clear(){
     icon_right.style.visibility     ="hidden";
     icon_wrong.style.visibility     ="hidden";
     btn_continue.style.visibility   ="hidden";
-    answer_origin.style.visibility  ="hidden";
     
 }
 /**回车、或者是点击 continue 按钮，开始下一个单词 */
 function start_next_word(){
-    
-
-
-    
-
+    current_state = STATE.ANSWER;
     clear();
     set_word();
-    console.log("next word");
 }
