@@ -72,9 +72,7 @@
         <!-- 中文翻译 -->
         <div style="padding:10px 0">
             <!-- 这里显示中文信息 -->
-            <h2 id="word_chinese" style="display: inline-block;font-size: 30px;;padding: 10px 0;">
-                
-            </h2>
+            <h2 id="word_chinese" style="display: inline-block;font-size: 30px;;padding: 10px 0;"></h2>
             <!-- 下面是那个喇叭 -->
             <div id="horn" onclick="play()" style=" display: inline-block;top:50%; margin-top: -20px;">
                 <svg width="30" height="30" viewbox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
@@ -100,7 +98,7 @@
         </div>
         <!-- 单词输入区域 -->
         <div id="input_area">
-            <div style="margin-bottom: 10px;">
+            <div style="margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
                 <form >
                     <div style="padding: 10px 0px;">
                         <span id="hint_sigular" class="hint">单数：</span>
@@ -119,18 +117,24 @@
             </div>
             
             <!-- 特殊字符输入，如 ä, ö, ü, Ä, Ö, Ü, ß -->
-            <div >
-                <div class="umlauts_container">
-                    <button class="umlauts_button">ä</button>
-                    
-                    <button class="umlauts_button">ö</button>
-                    
-                    <button class="umlauts_button">ü</button>
-                    
-                    <button class="umlauts_button">ß</button>
+            <!-- <div >
+                <div style="display: inline-block;">
+                    <button class="umlauts_button" id="">&uArr;</button>
                 </div>
-                <div class="umlauts_container"></div>
-            </div>
+                <div style="display: inline-block;">
+                    <div class="umlauts_container">
+                        <button class="umlauts_button" >ä</button>
+                        
+                        <button class="umlauts_button">ö</button>
+                        
+                        <button class="umlauts_button">ü</button>
+                        
+                        <button class="umlauts_button">ß</button>
+                    </div>
+                    <div class="umlauts_container"></div>
+                </div>
+                
+            </div> -->
         </div>
 
         <!-- 下面这个显示例句 -->

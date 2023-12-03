@@ -164,7 +164,7 @@ input_answer_word.addEventListener("keydown",e=>{
         return;
     }
     else{
-        if(!(e.code === "Space" || e.code === "Enter") || "" === input_answer_word.value.trim()){
+        if(!(e.code === "Enter") || "" === input_answer_word.value.trim()){
             return;
         }
         // 如果是名词，则需要继续输入名词复数
@@ -173,12 +173,7 @@ input_answer_word.addEventListener("keydown",e=>{
             input_answer_plural.value = input_answer_plural.value.trim();
             return;
         }
-        // 如果不是名词，就直接去检查单词拼写
-        // if(STATE.ANSWER === current_state)
-        //     check_word();
-        // else{
-        //     start_next_word();
-        // }
+        
         check_button.focus()
     }
 });
@@ -371,6 +366,28 @@ function play(){
     // speechSynthesis.speak(message);    
 }
 
+// 把 ä, ö, ü, ß 用 ae, oe, ue, ss 代替
+function aue_simplify(str){
+    // 正则表达式
+    let regex1 = new RegExp('ä', 'g');
+    let regex2 = new RegExp('ö', 'g');
+    let regex3 = new RegExp('ü', 'g');
+    let regex4 = new RegExp('Ä', 'g');
+    let regex5 = new RegExp('Ö', 'g');
+    let regex6 = new RegExp('Ü', 'g');
+    let regex7 = new RegExp('ß', 'g');
+
+    let ans = str.replace(regex1, 'ae');
+    ans = ans.replace(regex2, 'oe');
+    ans = ans.replace(regex3, 'ue');
+    ans = ans.replace(regex4, 'Ae');
+    ans = ans.replace(regex5, 'Oe');
+    ans = ans.replace(regex6, 'Ue');
+    ans = ans.replace(regex7, 'ss');
+
+    return ans;
+}
+
 // 对回答结果进行检测
 function check_word(){
     current_state = STATE.CHECK;
@@ -383,58 +400,69 @@ function check_word(){
     if(current_word.type === 'nom'){
         // && 
         let ref_plural = "o.Pl";
+        let ref_plural_sim = "";
         if(current_word.plural === 'o.Pl'){
             ans_p = "o.Pl";
         }else{
             ref_plural = current_word.plural.split(" ")[1];
+            ref_plural_sim = aue_simplify(ref_plural); // ä, ö, ü, ß 简化后的复数词
         }
         let ref_ans = current_word.word.split(" ");
         let ref_gender = ref_ans[0];
         let ref_word = ref_ans[1];
-        flag = (ans_gender === ref_gender && ans_w === ref_word && ans_p === ref_plural);
+        let ref_word_sim = aue_simplify(ref_word);  // ä, ö, ü, ß 简化后的单数词
+        let gender_check = (ans_gender === ref_gender);
+        let singular_check = (ans_w === ref_word || ans_w === ref_word_sim);
+        let plural_check = (ans_p === ref_plural || ans_p === ref_plural_sim) ;
+
+        flag = gender_check && singular_check && plural_check;
         // 名词情况下检查词性是否正确
         input_gender.style.display = "none";
         div_check_gender_result.style.display = "inline-block";
-        if(ans_gender != ref_gender){
-            
+        if(gender_check){
+            div_check_gender_result.innerHTML = "<p style=\"color:#2bb91b; \"> " + ans_gender +" </p>" ;
+        }else{
             div_check_gender_result.innerHTML = 
             "<p style=\"color:#2bb91b; \">" + ref_gender +"</p>" +
             "<p style=\"color:#ff5132;text-decoration: line-through;\"> " + ans_gender +" </p>" ;
-        }else{
-            div_check_gender_result.innerHTML = "<p style=\"color:#2bb91b; \"> " + ans_gender +" </p>" ;
         }
 
         // 检查名词单数
         input_answer_word.style.display = "none";
         div_check_answer_word.style.display = "inline-block";
-        if(ans_w != ref_word){
+        if(singular_check){
+            div_check_answer_word.innerHTML = "<p style=\"color:#2bb91b; \"> " + ref_word +" </p>" ;
+        }else{
             div_check_answer_word.innerHTML = "<p style=\"color:#2bb91b; \">" + ref_word +"</p>" +
             "<p style=\"color:#ff5132;text-decoration: line-through;\"> " + ans_w +" </p>" ;
-        }else{
-            div_check_answer_word.innerHTML = "<p style=\"color:#2bb91b; \"> " + ans_w +" </p>" ;
         }
 
         // 检查名词复数的拼写
         if(current_word.plural != 'o.Pl'){
             input_answer_plural.style.display = "none";
             div_check_plural.style.display = "inline-block";
-    
-            if(ans_p != ref_plural){
+            console.log(ans_p, ref_plural_sim);
+            if(plural_check){
+                div_check_plural.innerHTML = "<p style=\"color:#2bb91b; \"> " + ref_plural +" </p>" ;
+            }else{
                 div_check_plural.innerHTML = "<p style=\"color:#2bb91b; \">" + ref_plural +"</p>" +
                 "<p style=\"color:#ff5132;text-decoration: line-through;\"> " + ans_p +" </p>" ;
-            }else{
-                div_check_plural.innerHTML = "<p style=\"color:#2bb91b; \"> " + ans_p +" </p>" ;
             }
         }
         
     }
     else{ // 非名词的判断，只需要进行单个词的判断即可
         let ref_word = current_word.word.trim();
+        let ref_word_sim = aue_simplify(ref_word);  // ä, ö, ü, ß 简化后的单数词
+
         if(current_word.type === 'trennV' || current_word.type === 'trenV'){ // 可分动词的话，不管有无反斜线都算对
             let ref_word_nohash = ref_word.split("/").join('');
-            flag = (ans_w === ref_word) || (ans_w === ref_word_nohash)
+            let ref_word_nohash_sim = aue_simplify(ref_word_nohash);
+
+            flag = (ans_w === ref_word) || (ans_w === ref_word_nohash) || (ans_w === ref_word_nohash_sim);
         }else{
-            flag = ans_w === ref_word;
+            console.log(ans_w, ref_word_sim);
+            flag = (ans_w === ref_word || ans_w === ref_word_sim);
         }
 
         input_answer_word.style.display = "none";
@@ -471,7 +499,8 @@ function check_word(){
     let pv_str = pv.toFixed(2) + "%";
     root.style.setProperty('--progress-bar-value', pv_str);
     // console.log(test_words);
-    console.log(test_words.length, WORDS_NUM, pv_str);
+    let tmp = aue_simplify(ans_w);
+    console.log(test_words.length, WORDS_NUM, pv_str, tmp);
     
     // setTimeout(btn_continue.focus(),500);
 }
