@@ -7,7 +7,7 @@ const B1E4 = [
 {chinese:"女儿",type:"nom",word:"die Tochter",plural:"die Töchter",example:"Ich habe einen Sohn und eine Tochter"},
 {chinese:"兄弟，哥哥",type:"nom",word:"der Bruder",plural:"die Brüder",example:"Ich habe einen Bruder und eine Schwester"},
 {chinese:"姐妹，姐姐，妹妹",type:"nom",word:"die Schwester",plural:"die Schwestern",example:"Ich habe einen Bruder und eine Schwerster"},
-{chinese:"儿媳，媳妇",type:"nom",word:"die Geschwister",plural:"Pl",example:"Ich habe keine Geschwister, ich bin allein"},
+{chinese:"儿媳，媳妇(单词本身为复数)",type:"nom",word:"die Geschwister",plural:"die Geschwister",example:"Ich habe keine Geschwister, ich bin allein"},
 {chinese:"世代，代",type:"nom",word:"die Generation",plural:"die Generationen",example:"Hier sind drei Generationen"},
 {chinese:"孙子",type:"nom",word:"das Enkelkind",plural:"die Enkelkinder",example:"Ich bin euer Enkelkind"},
 {chinese:"奶奶，外婆",type:"nom",word:"die Oma",plural:"die Omas",example:"Sie ist meine Oma"},
