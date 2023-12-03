@@ -43,11 +43,13 @@ const TYPE = {  nom:"名",
                 inf:'动',
                 adj:'形',
                 adv:'副',
-                trennV:'可分动词', trenV:'可分动词',
+                trennV:'可分动词', 
+                trenV:'可分动词',
                 pron:'代',
                 konj:'连',
                 prap:'介',
-                präp:'介'
+                präp:'介',
+                inter:'插'
             };
 
 input_answer_word.focus();
@@ -210,20 +212,6 @@ check_button.addEventListener("click", e=>{
 });
 
 
-
-/* 鼠标移动到相应区域则 focus */
-// input_gender.onmousemove = function(event){
-//     input_gender.focus();
-// }
-// input_answer_word.onmouseover = function(event){
-//     input_answer_word.focus();
-// }
-// input_answer_plural.onmousemove = function(event){
-//     input_answer_plural.focus();
-// }
-
-
-
 // 根据选项选择
 function get_test_words(){
     switch(Book){
@@ -297,7 +285,8 @@ function set_word(){
     }
     current_idx = Math.floor(Math.random()*number_of_rest_words);
 
-    // word的格式 ： {chinese:"富于想象的",type:"adj",word:"phantasievoll",example:"Die Amerikaner sind phantasievoll"},
+    // word的格式 ： 
+    // {chinese:"傍晚",type:"nom", gender:"der", word:"Abend", plural:"Abende", example:"Guten Abend", }
     current_word = test_words[current_idx];
     console.log(current_word);
     
@@ -325,7 +314,17 @@ function set_word(){
     }
     // 名词则需要考虑词性、单复数等问题
     else{
-        input_gender.style.display = "inline-block";
+        if(current_word.type === 'none') // 专有名词吴冠词属性
+        {
+            div_check_gender_result.innerText = "none";
+            div_check_gender_result.style.display = "inline-block";
+            input_answer_word.focus();
+
+        }else{
+            input_gender.style.display = "inline-block";
+            input_gender.focus();
+        }
+        
         
         div_plural_gender.style.display = "inline-block";
 
@@ -341,10 +340,7 @@ function set_word(){
         }else{
             input_answer_plural.style.display = "inline-block";
             div_plural_gender.innerText = "die";
-        }
-
-        input_gender.focus();
-        
+        }   
     }
     
     play();
@@ -404,12 +400,11 @@ function check_word(){
         if(current_word.plural === 'o.Pl'){
             ans_p = "o.Pl";
         }else{
-            ref_plural = current_word.plural.split(" ")[1];
+            ref_plural = current_word.plural;
             ref_plural_sim = aue_simplify(ref_plural); // ä, ö, ü, ß 简化后的复数词
         }
-        let ref_ans = current_word.word.split(" ");
-        let ref_gender = ref_ans[0];
-        let ref_word = ref_ans[1];
+        let ref_gender = current_word.gender;//ref_ans[0];
+        let ref_word = current_word.word;
         let ref_word_sim = aue_simplify(ref_word);  // ä, ö, ü, ß 简化后的单数词
         let gender_check = (ans_gender === ref_gender);
         let singular_check = (ans_w === ref_word || ans_w === ref_word_sim);
