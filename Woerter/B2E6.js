@@ -59,7 +59,7 @@ const B2E6 = [
 	{chinese:"显示器",type:"nom", gender:"das", word:"Display", plural:"Displays", example:"Mann kann auf dem Display Texte lesen", },
 	{chinese:"上面",type:"nom", gender:"die", word:"Oberseite", plural:"Oberseiten", example:"Auf der Oberseite sehe ich ein Bild", },
 	{chinese:"位于，处于",type:"inf", gender:"nan", word:"befinden", plural:"nan", example:"Wo befindet die Stadtbibliothek?", },
-	{chinese:"顾客，客户",type:"der Kunde", gender:"nan", word:"die Kunden", plural:"nan", example:"Er ist ein alter Kunde des Kaufhauses", },
+	{chinese:"顾客，客户",type:"nom", gender:"der", word:"Kunde", plural:"Kunden", example:"Er ist ein alter Kunde des Kaufhauses", },
 	{chinese:"续买",type:"trennV", gender:"nan", word:"nach/kaufen", plural:"nan", example:"Man kann elektronische Bücher nachkaufen", },
 	{chinese:"联合，统一",type:"inf", gender:"nan", word:"vereinen", plural:"nan", example:"Wir können unsere Meinungen nicht vereinen", },
 	{chinese:"强项，特长",type:"nom", gender:"die", word:"Stärke", plural:"Stärken", example:"Schwimmen ist seine Stärke", },
