@@ -1,4 +1,4 @@
-# 简单的德语单词在线练习网页
+# 德语背单词网页
 
 [github静态网页展示](https://messerliang.github.io/DeutscheWoeter/)
 
