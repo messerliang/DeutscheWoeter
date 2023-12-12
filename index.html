@@ -72,28 +72,33 @@
         <!-- 中文翻译 -->
         <div style="padding:10px 0">
             <!-- 这里显示中文信息 -->
-            <h2 id="word_chinese" style="display: inline-block;font-size: 25px;;padding: 10px 0;"></h2>
-            <!-- 下面是那个喇叭 -->
-            <div id="horn" onclick="play()" style=" display: inline-block;top:50%; margin-top: -20px;">
-                <svg width="30" height="30" viewbox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                    <g transform="translate(2, 0)">
-                      <path d="M0 13
-                            l8 0 
-                            l4 -4
-                            l0 24 
-                            l-4 -4
-                            l-8 0 " 
-                            stroke="white"  fill="white"/>
-                
-                      <g transform="translate(17, 5)">
-                        <path d="M0 10 A 7 7 0 0 1 0 20" fill="none" stroke="white" stroke-width="3"/>
-                        <path d="M3 5 A 12 12 0 0 1 3 25" fill="none" stroke="white" stroke-width="3"/>
-                        <path d="M6 0 A 17 17 0 0 1 6 30" fill="none" stroke="white" stroke-width="3"/>
-                      </g>
-                    </g>
+            <h2 id="word_chinese" style="font-size: 25px;padding: 10px 0;"></h2>
+            <!-- 点击播放提示 -->
+            <div id="horn_container" onclick="play()">
+                <div id="horn"  style=" display: inline-block; ">
+                    <svg width="20" height="20" viewbox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                        <g transform="translate(2, 0)">
+                          <path d="M0 13
+                                l8 0 
+                                l4 -4
+                                l0 24 
+                                l-4 -4
+                                l-8 0 " 
+                                stroke="white"  fill="white"/>
                     
-                </svg>
+                          <g transform="translate(17, 5)">
+                            <path d="M0 10 A 7 7 0 0 1 0 20" fill="none" stroke="white" stroke-width="3"/>
+                            <path d="M3 5 A 12 12 0 0 1 3 25" fill="none" stroke="white" stroke-width="3"/>
+                            <path d="M6 0 A 17 17 0 0 1 6 30" fill="none" stroke="white" stroke-width="3"/>
+                          </g>
+                        </g>
+                        
+                    </svg>
+                    
+                </div>
+                <span style="color: white; display: inline-block;">点击播放</span>
             </div>
+
             <!-- class="fas fa-volume-up" -->
         </div>
         <!-- 单词输入区域 -->
