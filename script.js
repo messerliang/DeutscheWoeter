@@ -29,6 +29,7 @@ const audio_correct = new Audio(audio_correct_path)
 const audio_wrong = new Audio(audio_wrong_path)
 const audio_finished = new Audio(audio_wrong_path)
 
+const WoeterAudioPath = "WoeterAudio/"
 
 const STATE = {
     ANSWER: 0,
@@ -361,18 +362,23 @@ function set_word(){
 
 //  根据本地音频文件的路径，来进行音频的播放
 function play(){
-    // 下面是阅读单词
-    let message = new SpeechSynthesisUtterance();
-    message.voice = speechSynthesis.getVoices().filter(function(voice) {
-        return voice.lang == 'de-DE';
-    })[1];
-    message.lang = 'de-DE'
-    // 阅读单词
-    message.text = current_word.word;
-    speechSynthesis.speak(message);
-    // 阅读例句
-    // message.text = current_word.example;
-    // speechSynthesis.speak(message);    
+    let wavDir = WoeterAudioPath + BUCH_DICT[Book] + EINHEIT_DICT[Unit] + '/';
+    wordName = "";
+    if(current_word.type == "nom"){
+        wordName = current_word.gender + '_' + current_word.word;
+    }else{
+        wordName = current_word.word;
+    }
+    // 去除可分动词的反斜杠
+    let regEx = new RegExp('/', 'g');
+    wordName = wordName.replace(regEx, '');
+    // 音频文件路径
+    wavFile = wavDir + wordName + '.wav';
+    console.log(wavFile);
+
+    // 播放音频
+    let audio = new Audio(wavFile)
+    audio.play();
 }
 
 // 把 ä, ö, ü, ß 用 ae, oe, ue, ss 代替
