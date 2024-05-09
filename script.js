@@ -19,10 +19,7 @@ const div_progress_bar = document.getElementById("div_progress_bar");           
 
 const root = document.documentElement;                                          // 根元素
 
-// const icon_right = document.getElementById("right");                            // 正确图标 
-// const icon_wrong = document.getElementById("wrong");                            // 错误图标 
-// const check_result = document.getElementById("check_result");
-// const btn_continue = document.getElementById("continue");
+
 
 const audio_correct_path = 'ring/correct.mp3';
 const audio_wrong_path = 'ring/wrong.mp3';
@@ -39,6 +36,7 @@ const STATE = {
 }
 let current_state = STATE.ANSWER; // 当前是在作答阶段还是在检测阶段
 
+// 简写词性对应的中文含义
 const TYPE = {  nom:"名",
                 inf:'动',
                 adj:'形',
@@ -51,6 +49,26 @@ const TYPE = {  nom:"名",
                 präp:'介',
                 inter:'插'
             };
+// 书本字典的定义
+const BUCH_DICT = {
+    "Buch1":"B1",
+    "Buch2":"B2",
+    "Buch3":"B3"
+}
+// 单元字典的定义
+const EINHEIT_DICT = {
+    "Einheit1":"E1",
+    "Einheit2":"E2",
+    "Einheit3":"E3",
+    "Einheit4":"E4",
+    "Einheit5":"E5",
+    "Einheit6":"E6",
+    "Einheit7":"E7",
+    "Einheit8":"E8",
+    "Einheit9":"E9",
+    "Einheit10":"E10",
+}
+
 
 input_answer_word.focus();
 
@@ -188,12 +206,7 @@ input_answer_plural.addEventListener("keydown",e=>{
         return;
     }else{
         if(e.code != "Enter")return;
-        // if( STATE.ANSWER === current_state )
-        // {
-        //     check_word();
-        // }else{
-        //     start_next_word();
-        // }
+
         check_button.focus();
         console.log(current_state);
     }
@@ -346,7 +359,7 @@ function set_word(){
     play();
 }
 
-//  使用系统自带的语音播放音频
+//  根据本地音频文件的路径，来进行音频的播放
 function play(){
     // 下面是阅读单词
     let message = new SpeechSynthesisUtterance();
@@ -513,10 +526,7 @@ function clear(){
     word_chinese.value = "";
     word_example.value = "";
 
-    // check_result.style.visibility   ="hidden";
-    // icon_right.style.visibility     ="hidden";
-    // icon_wrong.style.visibility     ="hidden";
-    // btn_continue.style.visibility   ="hidden";
+
     
 }
 /**回车、或者是点击 continue 按钮，开始下一个单词 */
