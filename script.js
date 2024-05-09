@@ -24,9 +24,9 @@ const root = document.documentElement;                                          
 // const check_result = document.getElementById("check_result");
 // const btn_continue = document.getElementById("continue");
 
-const audio_correct_path = 'sound/correct.mp3';
-const audio_wrong_path = 'sound/wrong.mp3';
-const audio_finished_path = 'sound/finished.mp3';
+const audio_correct_path = 'ring/correct.mp3';
+const audio_wrong_path = 'ring/wrong.mp3';
+const audio_finished_path = 'ring/finished.mp3';
 
 const audio_correct = new Audio(audio_correct_path)
 const audio_wrong = new Audio(audio_wrong_path)
