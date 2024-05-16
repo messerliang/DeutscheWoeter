@@ -160,7 +160,7 @@ function update_unit_html(){
     Unit = BUCH_EINHEIT[Book].indexOf(Unit)?Unit:BUCH_EINHEIT[Book][0];// 在更换 Buch 时，有可能另一个 buch 还没有完成那个单元的记录，就更换为一个当前存在的单元进行替换
 }
 
-// 输入框之间的跳转
+// 名词词性的输入时候，der die das 框的跳转
 input_gender.addEventListener("keydown", function(e){ // 单数词性的跳转
     if(e.code === "Space" ){ // 空格，跳转到
         e.preventDefault();
@@ -171,11 +171,11 @@ input_gender.addEventListener("keydown", function(e){ // 单数词性的跳转
     }
     else if(e.code === "Enter" && "" != input_gender.value.trim()){
         input_answer_word.focus();
-    }else if(3 <= input_gender.value.length && e.code != "Backspace"){
-        input_answer_word.focus();
-    };
+    }
 });
 
+
+// 完成单词的输入后，通过回车跳转倒下一个输入
 input_answer_word.addEventListener("keydown",e=>{
     if("" === input_answer_word.value.trim()){
         input_answer_word.value = input_answer_word.value.trim();
