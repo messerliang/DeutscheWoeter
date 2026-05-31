@@ -574,8 +574,30 @@ option {
 
 #word_example {
     color: rgba(255, 255, 255, 0.15);
-    transition: color 0.2s;
+    transition: color 0.2s, background 0.2s;
     font-style: italic;
+}
+
+#word_example.example-revealed {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+#word_example.example-revealed .example-word-highlight {
+    font-style: normal;
+    font-weight: 600;
+    padding: 1px 4px;
+    border-radius: 4px;
+}
+
+#word_example.example-correct .example-word-highlight {
+    color: var(--success);
+    background: rgba(34, 197, 94, 0.18);
+}
+
+#word_example.example-wrong .example-word-highlight {
+    color: var(--error);
+    background: rgba(239, 68, 68, 0.15);
 }
 
 #word_example:hover {

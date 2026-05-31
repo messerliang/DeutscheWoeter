@@ -191,6 +191,49 @@ function escapeHtml(str) {
         .replace(/"/g, '&quot;');
 }
 
+function escapeRegex(str) {
+    return String(str).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function getExampleHighlightPatterns(word) {
+    const patterns = [];
+    const w = word.word?.trim();
+    if (!w) return patterns;
+
+    if (word.type === 'nom' && hasArticleGender(word.gender)) {
+        patterns.push(`${word.gender} ${w}`);
+    }
+    patterns.push(w);
+    if (w.includes('/')) {
+        patterns.push(w.replace(/\//g, ''));
+    }
+    return [...new Set(patterns)].sort((a, b) => b.length - a.length);
+}
+
+function resetExampleDisplay(exampleText = '') {
+    word_example.textContent = exampleText;
+    word_example.classList.remove('example-revealed', 'example-correct', 'example-wrong');
+}
+
+function renderExampleHighlight(correct) {
+    const example = current_word.example || '';
+    if (!example) {
+        resetExampleDisplay('');
+        return;
+    }
+
+    let html = escapeHtml(example);
+    for (const pattern of getExampleHighlightPatterns(current_word)) {
+        const re = new RegExp(`(${escapeRegex(pattern)})`, 'gi');
+        html = html.replace(re, '<mark class="example-word-highlight">$1</mark>');
+    }
+
+    word_example.innerHTML = html;
+    word_example.classList.add('example-revealed');
+    word_example.classList.toggle('example-correct', correct);
+    word_example.classList.toggle('example-wrong', !correct);
+}
+
 function clearStatsHistory() {
     if (!confirm('确定清空所有练习记录？此操作不可恢复。')) return;
     localStorage.removeItem(STATS_KEY);
@@ -374,7 +417,7 @@ function set_word() {
 
     word_type_badge.textContent = TYPE[current_word.type] || current_word.type;
     word_chinese.textContent = current_word.chinese;
-    word_example.textContent = current_word.example || '';
+    resetExampleDisplay(current_word.example || '');
 
     div_check_gender_result.style.display = 'none';
     div_check_answer_word.style.display = 'none';
@@ -528,6 +571,7 @@ function check_word() {
     }
 
     recordAttempt(current_word, flag);
+    renderExampleHighlight(flag);
 
     const pv = WORDS_NUM > 0 ? ((WORDS_NUM - test_words.length) / WORDS_NUM) * 100 : 0;
     const pv_str = pv.toFixed(0) + '%';
@@ -541,7 +585,7 @@ function clear() {
     input_answer_plural.value = '';
     input_gender.value = '';
     word_chinese.textContent = '';
-    word_example.textContent = '';
+    resetExampleDisplay('');
     word_type_badge.textContent = '';
 }
 
