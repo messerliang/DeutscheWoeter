@@ -37,6 +37,15 @@
     <script src="Woerter/B3E5.js"></script>
 </head>
 <body>
+    <div class="bg-animation" aria-hidden="true">
+        <div class="bg-base"></div>
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+        <div class="bg-orb bg-orb-4"></div>
+        <div class="bg-grid"></div>
+        <div class="bg-noise"></div>
+    </div>
     <div class="app">
         <header class="header">
             <div class="header-brand">
@@ -75,6 +84,13 @@
                         <option value="30">30 个</option>
                         <option value="all">全部</option>
                     </select>
+                </div>
+                <div class="field field-toggle">
+                    <label for="auto-play">自动播放</label>
+                    <label class="toggle" title="开启：出现单词时自动朗读；关闭：检查后朗读">
+                        <input type="checkbox" id="auto-play" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
                 </div>
                 <button type="button" id="start-button" class="btn btn-primary">开始练习</button>
             </form>
@@ -148,9 +164,41 @@
 
             <div class="action-section">
                 <button type="button" id="check_button" class="btn btn-check">检查</button>
-                <p class="hint-text">词性输满 3 字母自动跳转 · Enter 检查 · 再次 Enter 下一题</p>
+                <p class="hint-text">词性输满 3 字母自动跳转 · Enter 检查 · 再次 Enter 下一题 · 可随时点击喇叭播放</p>
             </div>
         </main>
+
+        <section class="stats-panel" id="stats-panel">
+            <div class="stats-header">
+                <h2>练习统计</h2>
+                <button type="button" id="clear-stats-button" class="btn btn-ghost">清空记录</button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-value" id="stat-total">0</span>
+                    <span class="stat-label">总作答</span>
+                </div>
+                <div class="stat-card stat-success">
+                    <span class="stat-value" id="stat-correct">0</span>
+                    <span class="stat-label">正确</span>
+                </div>
+                <div class="stat-card stat-error">
+                    <span class="stat-value" id="stat-wrong">0</span>
+                    <span class="stat-label">错误</span>
+                </div>
+                <div class="stat-card stat-accent">
+                    <span class="stat-value" id="stat-rate">—</span>
+                    <span class="stat-label">正确率</span>
+                </div>
+            </div>
+            <p class="stats-meta" id="stat-meta">完成轮次 0 · 累计练习 0 个单词</p>
+            <details class="stats-details" id="hard-words-details">
+                <summary>易错单词（按错误次数）</summary>
+                <ul class="hard-words-list" id="hard-words-list">
+                    <li class="hard-words-empty">暂无记录，开始练习后会自动统计</li>
+                </ul>
+            </details>
+        </section>
     </div>
 
     <script src="script.js"></script>
