@@ -403,15 +403,59 @@ function start_next_word() {
     set_word();
 }
 
-function submitOrContinue() {
-    if (!session_active) return;
-    if (current_state === STATE.ANSWER) {
-        check_button.textContent = '下一题';
-        check_word();
-        check_button.focus();
-    } else {
-        start_next_word();
+function showCheckResult() {
+    if (!session_active || current_state !== STATE.ANSWER) return;
+    check_button.textContent = '下一题';
+    check_word();
+    requestAnimationFrame(() => check_button.focus());
+}
+
+function goNextWord() {
+    if (!session_active || current_state !== STATE.CHECK) return;
+    start_next_word();
+}
+
+function shouldJumpToPlural() {
+    return current_word.type === 'nom'
+        && current_word.plural !== 'o.Pl'
+        && input_answer_word.value.trim() !== '';
+}
+
+function handleAnswerEnter(e) {
+    if (!session_active || e.code !== 'Enter' || current_state !== STATE.ANSWER) return;
+    if (e.target.closest('.settings-panel')) return;
+
+    if (e.target === input_gender) {
+        if (input_gender.value.trim() === '') return;
+        e.preventDefault();
+        input_answer_word.focus();
+        return;
     }
+
+    if (e.target === input_answer_word) {
+        if (input_answer_word.value.trim() === '') return;
+        if (shouldJumpToPlural()) {
+            e.preventDefault();
+            input_answer_plural.focus();
+            return;
+        }
+    }
+
+    if (e.target === input_answer_plural && input_answer_plural.value.trim() === '') {
+        return;
+    }
+
+    if (e.target === input_answer_word || e.target === input_answer_plural) {
+        e.preventDefault();
+        showCheckResult();
+    }
+}
+
+function handleCheckEnter(e) {
+    if (!session_active || e.code !== 'Enter' || current_state !== STATE.CHECK) return;
+    if (e.target.closest('.settings-panel')) return;
+    e.preventDefault();
+    goNextWord();
 }
 
 function insertUmlaut(char) {
@@ -430,50 +474,39 @@ input_gender.addEventListener('focus', () => { lastFocusedInput = input_gender; 
 input_answer_word.addEventListener('focus', () => { lastFocusedInput = input_answer_word; });
 input_answer_plural.addEventListener('focus', () => { lastFocusedInput = input_answer_plural; });
 
+input_gender.addEventListener('input', () => {
+    if (input_gender.value.length >= 3) {
+        input_answer_word.focus();
+    }
+});
+
 input_gender.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
         e.preventDefault();
         input_gender.value = input_gender.value.trim();
         if (input_gender.value !== '') input_answer_word.focus();
-    } else if (e.code === 'Enter' && input_gender.value.trim() !== '') {
-        input_answer_word.focus();
     }
 });
 
 input_answer_word.addEventListener('keydown', (e) => {
-    if (input_answer_word.value.trim() === '') {
-        if (e.code === 'Backspace') input_gender.focus();
-        return;
-    }
-    if (e.code !== 'Enter') return;
-    e.preventDefault();
-
-    if (current_word.type === 'nom' && current_word.plural !== 'o.Pl') {
-        input_answer_plural.focus();
-    } else {
-        submitOrContinue();
+    if (e.code === 'Backspace' && input_answer_word.value.trim() === '') {
+        input_gender.focus();
     }
 });
 
 input_answer_plural.addEventListener('keydown', (e) => {
-    if (input_answer_plural.value.trim() === '') {
-        if (e.code === 'Backspace') input_answer_word.focus();
-        return;
-    }
-    if (e.code === 'Enter') {
-        e.preventDefault();
-        submitOrContinue();
+    if (e.code === 'Backspace' && input_answer_plural.value.trim() === '') {
+        input_answer_word.focus();
     }
 });
 
-check_button.addEventListener('click', submitOrContinue);
-
-document.addEventListener('keydown', (e) => {
-    if (!session_active || e.code !== 'Enter' || current_state !== STATE.CHECK) return;
-    if (e.target === check_button) return;
-    e.preventDefault();
-    start_next_word();
+check_button.addEventListener('click', () => {
+    if (current_state === STATE.ANSWER) showCheckResult();
+    else goNextWord();
 });
+
+document.addEventListener('keydown', handleAnswerEnter);
+document.addEventListener('keydown', handleCheckEnter, true);
 
 document.querySelectorAll('.umlauts_button').forEach(btn => {
     btn.addEventListener('click', () => insertUmlaut(btn.dataset.char));

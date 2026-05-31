@@ -116,7 +116,7 @@
             <div id="input_area" class="input-section">
                 <div class="input-row" id="singular-row">
                     <span id="hint_sigular" class="hint">单数</span>
-                    <input type="text" class="gender" id="input_gender" placeholder="der/die/das" autocomplete="off" spellcheck="false">
+                    <input type="text" class="gender" id="input_gender" placeholder="der/die/das" maxlength="3" autocomplete="off" spellcheck="false">
                     <div class="gender result-box" id="check_gender_result"></div>
                     <input type="text" class="answer" id="answer_word" placeholder="输入德语单词" autocomplete="off" spellcheck="false">
                     <div class="answer result-box" id="check_answer_result"></div>
@@ -148,7 +148,7 @@
 
             <div class="action-section">
                 <button type="button" id="check_button" class="btn btn-check">检查</button>
-                <p class="hint-text">Enter 检查 · 再次 Enter 下一题 · 空格确认词性</p>
+                <p class="hint-text">词性输满 3 字母自动跳转 · Enter 检查 · 再次 Enter 下一题</p>
             </div>
         </main>
     </div>
