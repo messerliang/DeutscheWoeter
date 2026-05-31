@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vokabeln</title>
-    
+    <title>德语拼写练习 · DeutscheWoeter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- 将单词作为类包含进来 -->
+
     <script src="Woerter/current_einheits.js"></script>
     <script src="Woerter/B1E1.js"></script>
     <script src="Woerter/B1E10.js"></script>
@@ -34,114 +35,124 @@
     <script src="Woerter/B3E3.js"></script>
     <script src="Woerter/B3E4.js"></script>
     <script src="Woerter/B3E5.js"></script>
-    
 </head>
 <body>
-    <!-- 选择第几本书和第几个单元 -->
-    <div id="top" class="settings">
-        <form id="choose-book-unite">
-          <div >
-            <label style="position: relative;margin-right: 20px;">
-                <span>Book:</span>
-                <select id="book">
-                    <option value="Buch1">Buch1</option>
-                    <option value="Buch2">Buch2</option>
-                    <option value="Buch3">Buch3</option>
-                </select>
-            </label>
-            <label style="position: relative;margin-left: 20px;">
-              <span>Unit:</span>
-              <select id="unit">
-                  <option value="Einheit1">Einheit1</option>
-                  <option value="Einheit2">Einheit2</option>
-              </select>
-             
-          </label>
-          </div>
-        </form>
-    </div>
-    
-    <div id="down" >
-        <!-- 进度条 -->
-        <div class="progress_container">
-            <div id="div_progress_bar" class="progress_bar">
-                <div class="progress_bar_shadow"></div>
-            </div>
-        </div>
-        <!-- 中文翻译 -->
-        <div style="padding:10px 0">
-            <!-- 这里显示中文信息 -->
-            <h2 id="word_chinese" style="font-size: 25px;padding: 10px 0;"></h2>
-            <!-- 点击播放提示 -->
-            <div id="horn_container" onclick="play()">
-                <div id="horn"  style=" display: inline-block; ">
-                    <svg width="20" height="20" viewbox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                        <g transform="translate(2, 0)">
-                          <path d="M0 13
-                                l8 0 
-                                l4 -4
-                                l0 24 
-                                l-4 -4
-                                l-8 0 " 
-                                stroke="white"  fill="white"/>
-                    
-                          <g transform="translate(17, 5)">
-                            <path d="M0 10 A 7 7 0 0 1 0 20" fill="none" stroke="white" stroke-width="3"/>
-                            <path d="M3 5 A 12 12 0 0 1 3 25" fill="none" stroke="white" stroke-width="3"/>
-                            <path d="M6 0 A 17 17 0 0 1 6 30" fill="none" stroke="white" stroke-width="3"/>
-                          </g>
-                        </g>
-                        
-                    </svg>
-                    
+    <div class="app">
+        <header class="header">
+            <div class="header-brand">
+                <span class="logo">🇩🇪</span>
+                <div>
+                    <h1>DeutscheWoeter</h1>
+                    <p class="subtitle">德语拼写练习</p>
                 </div>
-                <span style="color: white; display: inline-block;">点击播放</span>
+            </div>
+        </header>
+
+        <section class="settings-panel">
+            <form id="choose-book-unite" class="settings-form">
+                <div class="field">
+                    <label for="book">教材</label>
+                    <select id="book"></select>
+                </div>
+                <div class="field" id="unit-field">
+                    <label for="unit">单元</label>
+                    <select id="unit"></select>
+                </div>
+                <div class="field">
+                    <label for="scope">范围</label>
+                    <select id="scope">
+                        <option value="unit">当前单元</option>
+                        <option value="book">整本书随机</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="word-count">练习数量</label>
+                    <select id="word-count">
+                        <option value="5">5 个</option>
+                        <option value="10" selected>10 个</option>
+                        <option value="15">15 个</option>
+                        <option value="20">20 个</option>
+                        <option value="30">30 个</option>
+                        <option value="all">全部</option>
+                    </select>
+                </div>
+                <button type="button" id="start-button" class="btn btn-primary">开始练习</button>
+            </form>
+        </section>
+
+        <main class="practice-card" id="practice-area">
+            <div class="session-info">
+                <span id="session-label">准备开始</span>
+                <span id="session-stats"></span>
             </div>
 
-            <!-- class="fas fa-volume-up" -->
-        </div>
-        <!-- 单词输入区域 -->
-        <div id="input_area">
-            <div style="margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
-                <form >
-                    <div style="padding: 10px 0px;">
-                        <span id="hint_sigular" class="hint">单数：</span>
-                        <input type="text" class="gender" id="input_gender" placeholder="词性">
-                        <div class="gender" id="check_gender_result"></div>
-                        <input type="text" class="answer" id="answer_word" placeholder="输入单词">
-                        <div class="answer" id="check_answer_result" ></div>
+            <div class="progress-wrap">
+                <div class="progress_container">
+                    <div id="div_progress_bar" class="progress_bar">
+                        <div class="progress_bar_shadow"></div>
                     </div>
-                    <div>
-                        <span id="hint_plural" class="hint">复数：</span>
-                        <div class="gender" id="plural_gender" style="border: none;">die</div>
-                        <input type="text" class="answer" id="answer_plural" placeholder="复数">
-                        <div class="answer" id="check_plural_result" ></div>
-                    </div>
-                </form>
+                </div>
+                <span id="progress-text" class="progress-text">0%</span>
             </div>
 
-        </div>
+            <div class="prompt-section">
+                <span id="word-type-badge" class="type-badge"></span>
+                <h2 id="word_chinese"></h2>
+                <button type="button" id="horn_container" class="audio-btn" onclick="play()" title="播放发音">
+                    <svg width="22" height="22" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <g transform="translate(2, 0)">
+                            <path d="M0 13 l8 0 l4 -4 l0 24 l-4 -4 l-8 0" fill="currentColor"/>
+                            <g transform="translate(17, 5)">
+                                <path d="M0 10 A 7 7 0 0 1 0 20" fill="none" stroke="currentColor" stroke-width="3"/>
+                                <path d="M3 5 A 12 12 0 0 1 3 25" fill="none" stroke="currentColor" stroke-width="3"/>
+                                <path d="M6 0 A 17 17 0 0 1 6 30" fill="none" stroke="currentColor" stroke-width="3"/>
+                            </g>
+                        </g>
+                    </svg>
+                    <span>点击播放</span>
+                </button>
+            </div>
 
-        <!-- 下面这个显示例句 -->
-        <div style="margin-top: 10px;">
-            <p id="example" >
-                <span>例句:</span>
-                <span id="word_example" style="margin-left: 5px;"></span>
-            </p>
-            <!-- <textarea name="answer_example" id="answer_example" cols="50"  rows="4"></textarea> -->
-        </div>
+            <div id="input_area" class="input-section">
+                <div class="input-row" id="singular-row">
+                    <span id="hint_sigular" class="hint">单数</span>
+                    <input type="text" class="gender" id="input_gender" placeholder="der/die/das" autocomplete="off" spellcheck="false">
+                    <div class="gender result-box" id="check_gender_result"></div>
+                    <input type="text" class="answer" id="answer_word" placeholder="输入德语单词" autocomplete="off" spellcheck="false">
+                    <div class="answer result-box" id="check_answer_result"></div>
+                </div>
+                <div class="input-row" id="plural-row">
+                    <span id="hint_plural" class="hint">复数</span>
+                    <div class="gender static-label" id="plural_gender">die</div>
+                    <input type="text" class="answer" id="answer_plural" placeholder="输入复数形式" autocomplete="off" spellcheck="false">
+                    <div class="answer result-box" id="check_plural_result"></div>
+                </div>
+            </div>
 
-        <!-- 下面是点击进行检查的按钮 -->
-        <div style="width: 100%; margin-top: 20px; align-items: center; display: flex; flex-direction: column;">
-            <button id="check_button" >
-                check
-            </button>
-        </div>
+            <div class="umlauts_container">
+                <button type="button" class="umlauts_button" data-char="ä">ä</button>
+                <button type="button" class="umlauts_button" data-char="ö">ö</button>
+                <button type="button" class="umlauts_button" data-char="ü">ü</button>
+                <button type="button" class="umlauts_button" data-char="ß">ß</button>
+                <button type="button" class="umlauts_button" data-char="Ä">Ä</button>
+                <button type="button" class="umlauts_button" data-char="Ö">Ö</button>
+                <button type="button" class="umlauts_button" data-char="Ü">Ü</button>
+            </div>
+
+            <div class="example-section">
+                <p id="example">
+                    <span class="example-label">例句</span>
+                    <span id="word_example"></span>
+                </p>
+            </div>
+
+            <div class="action-section">
+                <button type="button" id="check_button" class="btn btn-check">检查</button>
+                <p class="hint-text">Enter 检查 · 再次 Enter 下一题 · 空格确认词性</p>
+            </div>
+        </main>
     </div>
 
     <script src="script.js"></script>
-    <script>
-        // console.log(BUCH_EINHEIT );
-    </script>
 </body>
 </html>
