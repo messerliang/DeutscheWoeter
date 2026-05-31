@@ -310,6 +310,15 @@ function aue_simplify(str) {
         .replace(/ß/g, 'ss');
 }
 
+function normAnswer(str) {
+    return aue_simplify(str.trim()).toLowerCase();
+}
+
+function answersMatch(user, ...refs) {
+    const normalized = normAnswer(user);
+    return refs.some(ref => normalized === normAnswer(ref));
+}
+
 function renderResult(container, correct, userVal, refVal) {
     container.style.display = 'inline-flex';
     if (correct) {
@@ -329,21 +338,18 @@ function check_word() {
 
     if (current_word.type === 'nom') {
         let ref_plural = 'o.Pl';
-        let ref_plural_sim = '';
         if (current_word.plural === 'o.Pl') {
             ans_p = 'o.Pl';
         } else {
             ref_plural = current_word.plural;
-            ref_plural_sim = aue_simplify(ref_plural);
         }
 
         const ref_gender = current_word.gender;
         const ref_word = current_word.word;
-        const ref_word_sim = aue_simplify(ref_word);
 
-        const gender_check = ans_gender === ref_gender;
-        const singular_check = ans_w === ref_word || ans_w === ref_word_sim;
-        const plural_check = ans_p === ref_plural || ans_p === ref_plural_sim;
+        const gender_check = answersMatch(ans_gender, ref_gender);
+        const singular_check = answersMatch(ans_w, ref_word);
+        const plural_check = answersMatch(ans_p, ref_plural);
         flag = gender_check && singular_check && plural_check;
 
         input_gender.style.display = 'none';
@@ -358,14 +364,12 @@ function check_word() {
         }
     } else {
         const ref_word = current_word.word.trim();
-        const ref_word_sim = aue_simplify(ref_word);
 
         if (current_word.type === 'trennV' || current_word.type === 'trenV') {
             const ref_word_nohash = ref_word.split('/').join('');
-            const ref_word_nohash_sim = aue_simplify(ref_word_nohash);
-            flag = ans_w === ref_word || ans_w === ref_word_nohash || ans_w === ref_word_nohash_sim;
+            flag = answersMatch(ans_w, ref_word, ref_word_nohash);
         } else {
-            flag = ans_w === ref_word || ans_w === ref_word_sim;
+            flag = answersMatch(ans_w, ref_word);
         }
 
         input_answer_word.style.display = 'none';
