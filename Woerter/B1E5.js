@@ -22,7 +22,7 @@ const B1E5 = [
 	{chinese:"色拉，沙拉",type:"nom", gender:"der", word:"Salat", plural:"Salate", example:"Es gibt Obstsalat, Kartoffelnsalat usw", },
 	{chinese:"洋葱",type:"nom", gender:"die", word:"Zwiebel", plural:"Zwiebeln", example:"Zwiebeln sind gesund", },
 	{chinese:"汤",type:"nom", gender:"die", word:"Suppe", plural:"Suppen", example:"Man isst eine Suppe und trinkt ein Bier", },
-	{chinese:"头盘，汤盘",type:"nom", gender:"die", word:"Vorspeise", plural:"Vorspersen", example:"Ich möchte eine Suppe als Vorspeise", },
+	{chinese:"头盘，汤盘",type:"nom", gender:"die", word:"Vorspeise", plural:"Vorspeisen", example:"Ich möchte eine Suppe als Vorspeise", },
 	{chinese:"点菜，订购",type:"inf", gender:"nan", word:"bestellen", plural:"nan", example:"Li Xiaoming bestellt Schnitzel mit Kartoffel", },
 	{chinese:"服务员",type:"nom", gender:"der", word:"Kellner", plural:"Kellner", example:"Der Kellner ist sehr nett", },
 	{chinese:"果汁，汁",type:"nom", gender:"der", word:"Saft", plural:"Säfte", example:"Li bestellt einen Apfelsaft noch", },
