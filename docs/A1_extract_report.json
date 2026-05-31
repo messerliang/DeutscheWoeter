@@ -1,0 +1,15 @@
+{
+  "total_merged_lines": 2079,
+  "parsed_entries": 2077,
+  "failed_count": 8,
+  "failed_samples": [
+    "die cd, -s CD Ich habe eine neue CD.",
+    "das Buch?",
+    "die DVD, -s DVD Im dritten Stock gibt es DVDs.",
+    "der MP3-Player, - MP3播放器 Das ist mein MP3-Player.",
+    "das Röntgenbild, -er X光片 Wir machen ein Röntgenbild.",
+    "das t-shirt, -s T恤 Wir brauchen Hosen, T-Shirts, Hemden, Jacken und Schuhe.",
+    "der usB-stick, -s U盘 Der USB-Stick kostet 12,90 Euro. (= 12 Euro 90)",
+    "der Region."
+  ]
+}

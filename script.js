@@ -1,10 +1,9 @@
+const choose_curriculum = document.getElementById('curriculum');
 const choose_book = document.getElementById('book');
-const choose_unit = document.getElementById('unit');
-const choose_scope = document.getElementById('scope');
+const curriculum_field = document.getElementById('curriculum-field');
 const choose_word_count = document.getElementById('word-count');
 const auto_play_toggle = document.getElementById('auto-play');
 const start_button = document.getElementById('start-button');
-const unit_field = document.getElementById('unit-field');
 const practice_area = document.getElementById('practice-area');
 const session_label = document.getElementById('session-label');
 const session_stats = document.getElementById('session-stats');
@@ -43,6 +42,7 @@ const hard_words_list = document.getElementById('hard-words-list');
 const STATS_KEY = 'spellingStats';
 
 const WoeterAudioPath = 'WoeterAudio/';
+const SHARED_AUDIO_DIR = WoeterAudioPath + 'shared/';
 
 const STATE = { ANSWER: 0, CHECK: 1 };
 let current_state = STATE.ANSWER;
@@ -54,26 +54,30 @@ const TYPE = {
     konj: '连词', prap: '介词', präp: '介词', inter: '感叹词',
 };
 
-const BUCH_DICT = { Buch1: 'B1', Buch2: 'B2', Buch3: 'B3' };
-const EINHEIT_DICT = {
-    Einheit1: 'E1', Einheit2: 'E2', Einheit3: 'E3', Einheit4: 'E4',
-    Einheit5: 'E5', Einheit6: 'E6', Einheit7: 'E7', Einheit8: 'E8',
-    Einheit9: 'E9', Einheit10: 'E10',
-};
+function migrateLegacySettings() {
+    const cur = localStorage.getItem('curriculum');
+    if (cur === 'schritte') {
+        localStorage.setItem('curriculum', 'xinkebiao');
+    }
+    localStorage.removeItem('unit');
+    localStorage.removeItem('scope');
 
-const WORD_SOURCES = {
-    B1E1, B1E2, B1E3, B1E4, B1E5, B1E6, B1E7, B1E8, B1E9, B1E10,
-    B2E1, B2E2, B2E3, B2E4, B2E5, B2E6, B2E7, B2E8, B2E9, B2E10,
-    B3E1, B3E2, B3E3, B3E4, B3E5,
-};
+    if (cur) return;
 
-let Book = localStorage.getItem('book') || 'Buch1';
-let Unit = localStorage.getItem('unit') || 'Einheit1';
-let Scope = localStorage.getItem('scope') || 'unit';
+    const oldBook = localStorage.getItem('book');
+    if (!oldBook?.startsWith('Buch')) return;
+
+    const bookNum = oldBook.replace('Buch', '');
+    localStorage.setItem('curriculum', 'xinkebiao');
+    localStorage.setItem('book', 'B' + bookNum);
+}
+
+migrateLegacySettings();
+
+let Curriculum = localStorage.getItem('curriculum') || CURRICULA[0].id;
+let Book = localStorage.getItem('book') || CURRICULA[0].books[0].id;
 let WordCount = localStorage.getItem('wordCount') || '10';
 let AutoPlayAudio = localStorage.getItem('autoPlayAudio') !== 'false';
-
-Unit = BUCH_EINHEIT[Book].includes(Unit) ? Unit : 'Einheit1';
 
 let test_words = [];
 let current_word = {};
@@ -108,9 +112,7 @@ function saveStats(stats) {
 }
 
 function wordStatsKey(word) {
-    const book = word._book || Book;
-    const unit = word._unit || Unit;
-    return `${getSourceKey(book, unit)}|${word.type}|${word.word}`;
+    return `${word._curriculum}|${word._book}|${word.type}|${word.word}`;
 }
 
 function recordAttempt(word, correct) {
@@ -127,7 +129,7 @@ function recordAttempt(word, correct) {
     const key = wordStatsKey(word);
     if (!stats.words[key]) {
         stats.words[key] = {
-            unit: getSourceKey(word._book || Book, word._unit || Unit),
+            unit: getBookDisplayLabel(word._curriculum || Curriculum, word._book || Book),
             word: word.word,
             chinese: word.chinese || '',
             type: word.type,
@@ -197,22 +199,18 @@ function clearStatsHistory() {
     updateSessionStats();
 }
 
-function getSourceKey(book, unit) {
-    return BUCH_DICT[book] + EINHEIT_DICT[unit];
-}
-
-function getWordsFromUnit(book, unit) {
-    const key = getSourceKey(book, unit);
-    const source = WORD_SOURCES[key];
-    return source ? [...source] : [];
-}
-
-function getAllWordsFromBook(book) {
+function getAllWordsFromBook(curriculumId, bookId) {
     const words = [];
-    for (const unit of BUCH_EINHEIT[book]) {
-        words.push(...getWordsFromUnit(book, unit));
+    for (const source of getBookSources(curriculumId, bookId)) {
+        const arr = WORD_SOURCES[source.sourceKey];
+        if (!arr) continue;
+        words.push(...arr.filter(isValidWord).map(w => normalizeWord(w, curriculumId, bookId, source.sourceKey)));
     }
     return words;
+}
+
+function buildWordPool() {
+    return getAllWordsFromBook(Curriculum, Book);
 }
 
 function shuffleArray(arr) {
@@ -240,8 +238,17 @@ function needsGenderInput(word) {
     return word.type === 'nom' && hasArticleGender(word.gender);
 }
 
-function normalizeWord(word, book, unit) {
-    const normalized = { ...word, _book: book, _unit: unit };
+function isValidWord(word) {
+    return word.word && word.word !== 'nan' && word.type !== 'nan';
+}
+
+function normalizeWord(word, curriculumId, bookId, sourceKey) {
+    const normalized = {
+        ...word,
+        _curriculum: curriculumId,
+        _book: bookId,
+        _sourceKey: sourceKey,
+    };
     if (normalized.type === 'nom' && normalized.word && !normalized.gender) {
         const match = normalized.word.match(/^(der|die|das)\s+(.+)$/i);
         if (match) {
@@ -250,18 +257,6 @@ function normalizeWord(word, book, unit) {
         }
     }
     return normalized;
-}
-
-function buildWordPool() {
-    let pool = [];
-    if (Scope === 'book') {
-        for (const unit of BUCH_EINHEIT[Book]) {
-            pool.push(...getWordsFromUnit(Book, unit).map(w => normalizeWord(w, Book, unit)));
-        }
-    } else {
-        pool = getWordsFromUnit(Book, Unit).map(w => normalizeWord(w, Book, Unit));
-    }
-    return pool;
 }
 
 function get_test_words() {
@@ -298,41 +293,37 @@ function updateSessionLabel() {
         session_label.textContent = '准备开始';
         return;
     }
-    const scopeText = Scope === 'book' ? `${Book} 全书随机` : `${Book} · ${Unit}`;
-    session_label.textContent = scopeText;
+    session_label.textContent = getBookDisplayLabel(Curriculum, Book);
 }
 
-function updateScopeUI() {
-    unit_field.style.display = Scope === 'book' ? 'none' : 'flex';
+function updateCurriculumUI() {
+    curriculum_field.style.display = CURRICULA.length > 1 ? 'flex' : 'none';
+}
+
+function update_curriculum_html() {
+    let html = '';
+    for (const curriculum of CURRICULA) {
+        html += `<option value="${curriculum.id}">${curriculum.name}</option>`;
+    }
+    choose_curriculum.innerHTML = html;
+
+    if (!findCurriculum(Curriculum)) {
+        Curriculum = CURRICULA[0].id;
+    }
 }
 
 function update_book_html() {
+    const curriculum = findCurriculum(Curriculum);
     let book_html = '';
-    for (const b in BUCH_EINHEIT) {
-        if (BUCH_EINHEIT[b].length > 0) {
-            book_html += `<option value="${b}">${b}</option>`;
+    for (const book of curriculum.books) {
+        if (book.sources.length > 0) {
+            book_html += `<option value="${book.id}">${book.label}</option>`;
         }
     }
     choose_book.innerHTML = book_html;
 
-    if (BUCH_EINHEIT[Book].length === 0) {
-        for (const b in BUCH_EINHEIT) {
-            if (BUCH_EINHEIT[b].length !== 0) {
-                Book = b;
-                break;
-            }
-        }
-    }
-}
-
-function update_unit_html() {
-    let unit_html = '';
-    for (const einheit of BUCH_EINHEIT[Book]) {
-        unit_html += `<option value="${einheit}">${einheit}</option>\n`;
-    }
-    choose_unit.innerHTML = unit_html;
-    if (!BUCH_EINHEIT[Book].includes(Unit)) {
-        Unit = BUCH_EINHEIT[Book][0];
+    if (!findBook(Curriculum, Book)) {
+        Book = curriculum.books.find(b => b.sources.length > 0)?.id || curriculum.books[0].id;
     }
 }
 
@@ -348,7 +339,7 @@ function startSession() {
     if (test_words.length === 0) {
         session_active = false;
         practice_area.classList.add('is-idle');
-        alert('当前选择范围内没有可用单词，请换一个单元或教材。');
+        alert('当前选择的教材没有可用单词，请换一个册。');
         return;
     }
 
@@ -434,20 +425,19 @@ function set_word() {
     if (AutoPlayAudio) play();
 }
 
-function play() {
-    const wordBook = current_word._book || Book;
-    const wordUnit = current_word._unit || Unit;
-    const wavDir = WoeterAudioPath + BUCH_DICT[wordBook] + EINHEIT_DICT[wordUnit] + '/';
-
-    let wordName = '';
-    if (current_word.type === 'nom' && hasArticleGender(current_word.gender)) {
-        wordName = current_word.gender + '_' + current_word.word;
+function getAudioBasename(word) {
+    let name = '';
+    if (word.type === 'nom' && hasArticleGender(word.gender)) {
+        name = word.gender + '_' + word.word;
     } else {
-        wordName = current_word.word;
+        name = word.word;
     }
-    wordName = wordName.replace(/\//g, '');
+    return name.replace(/\//g, '');
+}
 
-    const audio = new Audio(wavDir + wordName + '.wav');
+function play() {
+    const basename = getAudioBasename(current_word);
+    const audio = new Audio(SHARED_AUDIO_DIR + basename + '.wav');
     audio.play().catch(() => {});
 }
 
@@ -672,22 +662,17 @@ document.querySelectorAll('.umlauts_button').forEach(btn => {
     btn.addEventListener('click', () => insertUmlaut(btn.dataset.char));
 });
 
+choose_curriculum.addEventListener('change', (e) => {
+    Curriculum = e.target.value;
+    localStorage.setItem('curriculum', Curriculum);
+    update_book_html();
+    localStorage.setItem('book', Book);
+    choose_book.value = Book;
+});
+
 choose_book.addEventListener('change', (e) => {
     Book = e.target.value;
     localStorage.setItem('book', Book);
-    update_unit_html();
-    choose_unit.value = Unit;
-});
-
-choose_unit.addEventListener('change', (e) => {
-    Unit = e.target.value;
-    localStorage.setItem('unit', Unit);
-});
-
-choose_scope.addEventListener('change', (e) => {
-    Scope = e.target.value;
-    localStorage.setItem('scope', Scope);
-    updateScopeUI();
 });
 
 choose_word_count.addEventListener('change', (e) => {
@@ -703,14 +688,13 @@ auto_play_toggle.addEventListener('change', (e) => {
 start_button.addEventListener('click', startSession);
 clear_stats_button.addEventListener('click', clearStatsHistory);
 
+update_curriculum_html();
+updateCurriculumUI();
 update_book_html();
-update_unit_html();
-updateScopeUI();
 renderStatsUI();
 
+choose_curriculum.value = Curriculum;
 choose_book.value = Book;
-choose_unit.value = Unit;
-choose_scope.value = Scope;
 choose_word_count.value = WordCount;
 auto_play_toggle.checked = AutoPlayAudio;
 

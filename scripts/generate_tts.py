@@ -49,9 +49,17 @@ def safe_print(message: str, *, file=None) -> None:
 ROOT = Path(__file__).resolve().parent.parent
 WOERTER_DIR = ROOT / "Woerter"
 AUDIO_DIR = ROOT / "WoeterAudio"
+SHARED_AUDIO_DIR = AUDIO_DIR / "shared"
 DEFAULT_VOICE = "de-DE-KatjaNeural"
 
-UNIT_FILE_PATTERN = re.compile(r"^B[123]E\d+\.js$")
+SKIP_FILES = {
+    "curricula.js",
+    "word-loader.js",
+    "word-registry.js",
+    "current_einheits.js",
+    "Woeter.js",
+}
+WORD_FILE_PATTERN = re.compile(r"^.+\.js$")
 ENTRY_PATTERN = re.compile(r"\{[^{}]*\}", re.DOTALL)
 FIELD_PATTERN = re.compile(r"(\w+)\s*:\s*\"((?:\\.|[^\"])*)\"")
 GENDER_IN_WORD = re.compile(r"^(der|die|das)\s+(.+)$", re.IGNORECASE)
@@ -67,7 +75,7 @@ class WordEntry:
 
     @property
     def audio_subdir(self) -> str:
-        return self.unit
+        return "shared"
 
     @property
     def audio_basename(self) -> str:
@@ -85,15 +93,17 @@ class WordEntry:
         return self.word
 
     def existing_audio(self) -> Path | None:
-        folder = AUDIO_DIR / self.audio_subdir
-        for ext in (".wav", ".mp3"):
-            path = folder / f"{self.audio_basename}{ext}"
+        shared = SHARED_AUDIO_DIR / f"{self.audio_basename}.wav"
+        if shared.is_file():
+            return shared
+        for ext in (".mp3",):
+            path = SHARED_AUDIO_DIR / f"{self.audio_basename}{ext}"
             if path.is_file():
                 return path
         return None
 
     def target_path(self, ext: str) -> Path:
-        return AUDIO_DIR / self.audio_subdir / f"{self.audio_basename}{ext}"
+        return SHARED_AUDIO_DIR / f"{self.audio_basename}{ext}"
 
 
 def parse_word_file(path: Path) -> list[WordEntry]:
@@ -138,12 +148,20 @@ def parse_word_file(path: Path) -> list[WordEntry]:
 
 def load_all_entries(units: list[str] | None = None) -> list[WordEntry]:
     entries: list[WordEntry] = []
-    for path in sorted(WOERTER_DIR.glob("B*.js")):
-        if not UNIT_FILE_PATTERN.match(path.name):
+    seen_basenames: set[str] = set()
+
+    for path in sorted(WOERTER_DIR.glob("*.js")):
+        if path.name in SKIP_FILES or not WORD_FILE_PATTERN.match(path.name):
             continue
         if units and path.stem not in units:
             continue
-        entries.extend(parse_word_file(path))
+
+        for entry in parse_word_file(path):
+            if entry.audio_basename in seen_basenames:
+                continue
+            seen_basenames.add(entry.audio_basename)
+            entries.append(entry)
+
     return entries
 
 
@@ -182,7 +200,7 @@ async def generate_one(
     if existing and not force:
         return "skip", f"已存在: {existing.relative_to(ROOT)}"
 
-    out_dir = AUDIO_DIR / entry.audio_subdir
+    out_dir = SHARED_AUDIO_DIR
     out_dir.mkdir(parents=True, exist_ok=True)
 
     use_wav = prefer_wav and has_ffmpeg()

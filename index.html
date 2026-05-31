@@ -9,32 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
-    <script src="Woerter/current_einheits.js"></script>
-    <script src="Woerter/B1E1.js"></script>
-    <script src="Woerter/B1E10.js"></script>
-    <script src="Woerter/B1E2.js"></script>
-    <script src="Woerter/B1E3.js"></script>
-    <script src="Woerter/B1E4.js"></script>
-    <script src="Woerter/B1E5.js"></script>
-    <script src="Woerter/B1E6.js"></script>
-    <script src="Woerter/B1E7.js"></script>
-    <script src="Woerter/B1E8.js"></script>
-    <script src="Woerter/B1E9.js"></script>
-    <script src="Woerter/B2E1.js"></script>
-    <script src="Woerter/B2E10.js"></script>
-    <script src="Woerter/B2E2.js"></script>
-    <script src="Woerter/B2E3.js"></script>
-    <script src="Woerter/B2E4.js"></script>
-    <script src="Woerter/B2E5.js"></script>
-    <script src="Woerter/B2E6.js"></script>
-    <script src="Woerter/B2E7.js"></script>
-    <script src="Woerter/B2E8.js"></script>
-    <script src="Woerter/B2E9.js"></script>
-    <script src="Woerter/B3E1.js"></script>
-    <script src="Woerter/B3E2.js"></script>
-    <script src="Woerter/B3E3.js"></script>
-    <script src="Woerter/B3E4.js"></script>
-    <script src="Woerter/B3E5.js"></script>
+    <script src="Woerter/curricula.js"></script>
+    <script src="Woerter/word-loader.js"></script>
+    <script src="Woerter/word-registry.js"></script>
 </head>
 <body>
     <div class="bg-animation" aria-hidden="true">
@@ -59,20 +36,13 @@
 
         <section class="settings-panel">
             <form id="choose-book-unite" class="settings-form">
+                <div class="field" id="curriculum-field">
+                    <label for="curriculum">教材系列</label>
+                    <select id="curriculum"></select>
+                </div>
                 <div class="field">
-                    <label for="book">教材</label>
+                    <label for="book">册</label>
                     <select id="book"></select>
-                </div>
-                <div class="field" id="unit-field">
-                    <label for="unit">单元</label>
-                    <select id="unit"></select>
-                </div>
-                <div class="field">
-                    <label for="scope">范围</label>
-                    <select id="scope">
-                        <option value="unit">当前单元</option>
-                        <option value="book">整本书随机</option>
-                    </select>
                 </div>
                 <div class="field">
                     <label for="word-count">练习数量</label>
